@@ -3,142 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200">
-    <title>TMX | THE GLOBAL HUB</title>
+    <title>TMX MEGA OS | BINER EDITION</title>
     <style>
-        :root { --neon: #00ff41; --bg: #030303; --glass: rgba(0, 20, 0, 0.9); }
-        body { 
-            background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; 
-            margin: 0; overflow: hidden; height: 100vh;
-        }
-
-        /* Matrix Background */
-        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.2; }
-
-        /* OS Desktop */
-        .desktop { width: 100%; height: calc(100vh - 50px); position: relative; padding: 30px; }
-        
+        :root { --neon: #00ff41; --bg: #000; }
+        body { margin: 0; background: #000; color: var(--neon); font-family: monospace; overflow: hidden; }
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
+        .desktop { width: 100%; height: 95vh; padding: 30px; position: relative; }
         .icon { width: 100px; text-align: center; cursor: pointer; margin-bottom: 30px; transition: 0.3s; }
         .icon:hover { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--neon)); }
-        .icon-img { font-size: 50px; margin-bottom: 5px; }
-        .icon-name { font-size: 14px; background: rgba(0,0,0,0.7); padding: 2px 5px; border-radius: 4px; }
-
-        /* Window System */
-        .window { 
-            position: absolute; width: 850px; height: 550px; background: var(--glass); 
-            border: 2px solid var(--neon); border-radius: 10px; display: none;
-            flex-direction: column; box-shadow: 0 0 50px rgba(0,255,65,0.2); backdrop-filter: blur(10px);
-            resize: both; overflow: hidden;
-        }
-        .win-header { background: rgba(0,255,65,0.1); padding: 10px; border-bottom: 2px solid var(--neon); display: flex; justify-content: space-between; cursor: move; }
-        .win-body { flex: 1; padding: 20px; overflow-y: auto; text-align: left; direction: ltr; }
-        
-        /* Command List Styling - The Bible */
-        .cmd-category { color: #fff; border-bottom: 1px solid var(--neon); margin: 30px 0 10px; font-size: 20px; text-align: right; direction: rtl; }
-        .cmd-item { background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; margin-bottom: 10px; border-right: 3px solid var(--neon); }
-        .cmd-code { color: #79c0ff; font-weight: bold; font-size: 16px; display: block; margin-bottom: 5px; }
-        .cmd-desc { color: #8b949e; font-size: 14px; text-align: right; direction: rtl; }
-
-        /* Taskbar */
-        .taskbar { 
-            position: fixed; bottom: 0; width: 100%; height: 50px; background: #000; 
-            border-top: 2px solid var(--neon); display: flex; align-items: center; padding: 0 20px; z-index: 1000;
-        }
-        .start-menu { background: var(--neon); color: #000; padding: 8px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
-        .sys-info { margin-right: auto; font-size: 14px; letter-spacing: 2px; }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
+        .win { position: absolute; width: 85%; height: 80%; background: rgba(0,10,0,0.95); border: 2px solid var(--neon); border-radius: 10px; display: none; flex-direction: column; top: 5%; left: 7.5%; box-shadow: 0 0 50px rgba(0,255,0,0.3); backdrop-filter: blur(10px); }
+        .win-head { background: rgba(0,255,0,0.1); padding: 10px; border-bottom: 1px solid var(--neon); display: flex; justify-content: space-between; }
+        .win-body { flex: 1; padding: 25px; overflow-y: auto; text-align: left; direction: ltr; }
+        .taskbar { position: fixed; bottom: 0; width: 100%; height: 45px; background: #000; border-top: 1px solid var(--neon); display: flex; align-items: center; padding: 0 20px; }
+        .script-card { background: rgba(0,255,0,0.05); border: 1px solid #1a1a1a; padding: 15px; margin: 10px; border-radius: 5px; border-right: 4px solid gold; }
     </style>
 </head>
 <body>
+    <canvas id="matrix"></canvas>
+    <div class="desktop">
+        <div class="icon" onclick="openWin('bible')"> <div style="font-size:50px">📚</div> <span>100_Pages_Scripts</span> </div>
+        <div class="icon" onclick="accessOffice()"> <div style="font-size:50px">🔐</div> <span>Biner_Private_Office</span> </div>
 
-<canvas id="matrix-canvas"></canvas>
-
-<div class="desktop">
-    <div class="icon" onclick="openWindow('bible-win')">
-        <div class="icon-img">📖</div>
-        <div class="icon-name">Termux_Bible</div>
-    </div>
-    
-    <div class="icon" onclick="openWindow('terminal-win')">
-        <div class="icon-img">📟</div>
-        <div class="icon-name">TMX_Terminal</div>
-    </div>
-
-    <div id="bible-win" class="window" style="top: 50px; left: 200px; display: flex;">
-        <div class="win-header">
-            <span>DATABASE_EXPLORER.sys</span>
-            <div style="cursor:pointer" onclick="closeWindow('bible-win')">✕</div>
+        <div id="bible" class="win">
+            <div class="win-head"> <span>TMX_SCRIPT_ARCHIVE_V5.sys</span> <span style="color:red; cursor:pointer" onclick="closeWin('bible')">✕</span> </div>
+            <div class="win-body" id="bible-content"></div>
         </div>
-        <div class="win-body">
-            <h1 style="text-align:center; color:#fff;">فەرماندە BINER: لیستی بێ کۆتایی</h1>
-            
-            <div class="cmd-category"># پشکنینی سیستەم (System)</div>
-            <div class="cmd-item"><span class="cmd-code">top</span><div class="cmd-desc">بینینی هەموو ئەو پڕۆسەیانەی ئێستا لە تێرمۆکس کار دەکەن.</div></div>
-            <div class="cmd-item"><span class="cmd-code">df -h</span><div class="cmd-desc">زانینی بڕی جێگەی بەتاڵ لە میمۆریدا.</div></div>
-            <div class="cmd-item"><span class="cmd-code">uptime</span><div class="cmd-desc">زانینی ئەوەی چەند کاتژمێرە تێرمۆکسەکەت کراوەیە.</div></div>
 
-            <div class="cmd-category"># نێتۆرک و هاکینگ (Networking)</div>
-            <div class="cmd-item"><span class="cmd-code">ping google.com</span><div class="cmd-desc">پشکنینی خێرایی هێڵی ئینتەرنێت.</div></div>
-            <div class="cmd-item"><span class="cmd-code">netstat -tupln</span><div class="cmd-desc">بینینی هەموو پۆرتە کراوەکانی مۆبایلەکەت.</div></div>
-            <div class="cmd-item"><span class="cmd-code">curl -I [url]</span><div class="cmd-desc">هێنانی Headerـی هەر سایتێک بۆ زانیاری کۆکردنەوە.</div></div>
-
-            <div class="cmd-category"># فەرمانی زیاتر (More Commands)</div>
-            <div class="cmd-item"><span class="cmd-code">pkg list-installed</span><div class="cmd-desc">بینینی لیستی هەموو ئەو ئامرازانەی داتبەزاندوون.</div></div>
-            <div class="cmd-item"><span class="cmd-code">rm -rf /sdcard/folder</span><div class="cmd-desc">سڕینەوەی فۆڵدەر بە توندی.</div></div>
-            
-            <p style="color:#555; text-align:center;">[ لیستەکە بەردەوام نوێ دەکرێتەوە لەلایەن BINER ]</p>
+        <div id="office" class="win">
+            <div class="win-head"> <span>BINER_OFFICE_ULTRA_SECURE</span> <span style="color:red; cursor:pointer" onclick="closeWin('office')">✕</span> </div>
+            <div class="win-body" id="office-content">
+                <h1 style="text-align:center; color:gold;">⭐ گەنجینەی تایبەتی فەرماندە ⭐</h1>
+                <div id="vip-list" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;"></div>
+            </div>
         </div>
     </div>
 
-    <div id="terminal-win" class="window" style="top: 150px; left: 400px; width: 600px; height: 400px;">
-        <div class="win-header">
-            <span>TERMINAL_SESSION</span>
-            <div style="cursor:pointer" onclick="closeWindow('terminal-win')">✕</div>
-        </div>
-        <div class="win-body" style="background:#000; color:var(--neon);">
-            <div>biner@tmx_os:~$ system_check</div>
-            <div style="color:#fff;">[OK] Security Protocol Active</div>
-            <div style="color:#fff;">[OK] Matrix Engine Online</div>
-            <br>
-            <div>biner@tmx_os:~$ <span style="animation: blink 1s infinite;">_</span></div>
-        </div>
+    <div class="taskbar">
+        <div style="background:var(--neon); color:#000; padding:5px 15px; font-weight:bold;">TMX START</div>
+        <div id="clock" style="margin-right:auto">00:00:00</div>
     </div>
-</div>
 
-<div class="taskbar">
-    <div class="start-menu">TMX START</div>
-    <div class="sys-info">CPU: OPTIMIZED | RAM: STABLE | OS: BINER-QUANTUM</div>
-    <div id="clock">00:00:00</div>
-</div>
+    <script>
+        // ١. سیستەمی پاسوۆرد بۆ ئۆفیس
+        function accessOffice() {
+            let p = prompt("Enter Commander Key:");
+            if(p === "BINER_2026") { openWin('office'); loadVIP(); }
+            else { alert("ACCESS DENIED!"); }
+        }
 
-<script>
-    // Matrix Logic
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    const chars = "0101TMXBINER";
-    const drops = Array(Math.floor(canvas.width/20)).fill(1);
-    function draw() {
-        ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = "#0f0"; ctx.font = "15px monospace";
-        drops.forEach((y, i) => {
-            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*20, y*20);
-            if(y*20 > canvas.height && Math.random() > 0.98) drops[i] = 0;
-            drops[i]++;
-        });
-    }
-    setInterval(draw, 35);
+        // ٢. دروستکردنی ١٠٠ پەیجی فێربوون
+        const b = document.getElementById('bible-content');
+        for(let i=1; i<=100; i++) {
+            b.innerHTML += `<div class="script-card"><b style="color:#fff">PAGE_${i}:</b> <code>pkg install tmx-tool-${i}</code><br><small>تایبەت بە فێربوونی بەشی ${i}</small></div>`;
+        }
 
-    // Clock Logic
-    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+        // ٣. بارکردنی هەزارەها سکرێپت لە ئۆفیسدا
+        function loadVIP() {
+            const v = document.getElementById('vip-list');
+            v.innerHTML = "";
+            let frag = document.createDocumentFragment();
+            for(let j=1; j<=1500; j++) {
+                let d = document.createElement('div');
+                d.className = 'script-card';
+                d.innerHTML = `<b>VIP_TOOL_${j}</b><br><code>git clone tmx/id-${j}</code>`;
+                frag.appendChild(d);
+            }
+            v.appendChild(frag);
+        }
 
-    // OS Logic
-    function openWindow(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
-</script>
-
+        // ٤. ماتریکس و کاتژمێر
+        const c = document.getElementById('matrix');
+        const ctx = c.getContext('2d');
+        c.width = window.innerWidth; c.height = window.innerHeight;
+        const chars = "01TMXBINER";
+        const drops = Array(Math.floor(c.width/20)).fill(1);
+        function draw() {
+            ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,c.width,c.height);
+            ctx.fillStyle = "#0f0"; drops.forEach((y, i) => {
+                ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*20, y*20);
+                if(y*20 > c.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(draw, 33);
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+        function openWin(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeWin(id) { document.getElementById(id).style.display = 'none'; }
+    </script>
 </body>
 </html>
