@@ -5,8 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: #e50914; padding: 15px 0; text-align: center; font-size: 18px; font-weight: bold; }
+        body { 
+            background-color: #050505; 
+            color: white; 
+            font-family: sans-serif; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        header { 
+            width: 100%; 
+            background: #e50914; 
+            padding: 15px 0; 
+            text-align: center; 
+            font-size: 18px; 
+            font-weight: bold; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+        }
         
         .main-container {
             width: 100%;
@@ -32,22 +47,38 @@
             border: none;
         }
 
-        /* 🚩 لۆگۆی BENAR - ڕێکخراو بۆ داپۆشینی تەواوەتی و مانەوە لە Full Screen */
+        /* 🚩 ئەمە نهێنی کارەکەیە: جێگیرکردن لە هەموو بارودۆخێکدا */
         .tmx-logo {
-            position: absolute !important;
-            top: 2px !important;    /* چوو بۆ وپەڕی سەرەوە */
-            left: 2px !important;   /* 👈 چوو بۆ وپەڕی لای چەپ بۆ داپۆشینی تەواو */
-            width: 55px !important;  /* قەبارەی ورد و بچووک بۆ جێگیربوون */
+            position: fixed !important; /* 👈 گۆڕدرا بۆ fixed بۆ ئەوەی لە شاشە دەرنەچێت */
+            top: 60px !important;    /* مەودا لە سەرووی شاشە - ڕەنگە پێویست بێت کەمێکی تری بۆ بگۆڕیت */
+            left: 10px !important;   /* وپەڕی لای چەپ بۆ داپۆشینی لۆگۆکەی تر */
+            width: 60px !important; 
             height: auto;
-            /* ⚠️ ئەمە ناهێڵێت لۆگۆکە ون بێت کاتێک فیلمەکە گەورە دەکەیت */
-            z-index: 2147483647 !important; 
+            z-index: 2147483647 !important; /* بەرزترین ئاست بۆ ئەوەی لە Full Screen بمێنێت */
             pointer-events: none;
             filter: drop-shadow(0 0 5px rgba(0,0,0,1));
         }
 
-        .details { background: #111; padding: 15px; margin: 10px; border-radius: 8px; text-align: right; border-right: 4px solid #e50914; }
+        .details { 
+            background: #111; 
+            padding: 15px; 
+            margin: 10px;
+            border-radius: 8px; 
+            text-align: right; 
+            border-right: 4px solid #e50914;
+        }
+
         h1 { color: #f1c40f; font-size: 18px; margin: 0; }
         p { color: #bbb; font-size: 14px; margin-top: 8px; }
+
+        /* لۆگۆکە بهێنە ناوتر کاتێک ڤیدیۆکە گەورە دەبێت */
+        @media screen and (orientation: landscape) {
+            .tmx-logo {
+                top: 10px !important;
+                left: 10px !important;
+                width: 50px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -63,7 +94,7 @@
 
         <div class="details">
             <h1>The Skeleton's Compass 🎬 (2022)</h1>
-            <p>بەخێربێن بۆ سینەمای BENAR MOVIES.</p>
+            <p>بەخێربێن بۆ سینەمای BENAR MOVIES. لۆگۆکە جێگیر کرا لە وپەڕی لای چەپ تەنانەت لە کاتی گەورەکردن.</p>
         </div>
     </div>
 
