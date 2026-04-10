@@ -2,38 +2,54 @@
 <html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMX QUANTUM | THE MULTIVERSE</title>
+    <meta name="viewport" content="width=1200">
+    <title>TMX | THE GLOBAL HUB</title>
     <style>
-        :root { --neon: #00ff41; --dark: #000; --glass: rgba(0, 20, 0, 0.8); }
-        body, html { margin: 0; padding: 0; background: var(--dark); color: var(--neon); font-family: 'Courier New', monospace; overflow-x: hidden; scroll-behavior: smooth; }
+        :root { --neon: #00ff41; --bg: #030303; --glass: rgba(0, 20, 0, 0.9); }
+        body { 
+            background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; 
+            margin: 0; overflow: hidden; height: 100vh;
+        }
+
+        /* Matrix Background */
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.2; }
+
+        /* OS Desktop */
+        .desktop { width: 100%; height: calc(100vh - 50px); position: relative; padding: 30px; }
         
-        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.2; }
+        .icon { width: 100px; text-align: center; cursor: pointer; margin-bottom: 30px; transition: 0.3s; }
+        .icon:hover { transform: scale(1.1); filter: drop-shadow(0 0 10px var(--neon)); }
+        .icon-img { font-size: 50px; margin-bottom: 5px; }
+        .icon-name { font-size: 14px; background: rgba(0,0,0,0.7); padding: 2px 5px; border-radius: 4px; }
 
-        /* OS Interface */
-        .desktop { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        /* Window System */
+        .window { 
+            position: absolute; width: 850px; height: 550px; background: var(--glass); 
+            border: 2px solid var(--neon); border-radius: 10px; display: none;
+            flex-direction: column; box-shadow: 0 0 50px rgba(0,255,65,0.2); backdrop-filter: blur(10px);
+            resize: both; overflow: hidden;
+        }
+        .win-header { background: rgba(0,255,65,0.1); padding: 10px; border-bottom: 2px solid var(--neon); display: flex; justify-content: space-between; cursor: move; }
+        .win-body { flex: 1; padding: 20px; overflow-y: auto; text-align: left; direction: ltr; }
         
-        .top-bar { width: 100%; display: flex; justify-content: space-between; padding: 10px; background: rgba(0,255,65,0.1); border-bottom: 1px solid var(--neon); margin-bottom: 20px; }
+        /* Command List Styling - The Bible */
+        .cmd-category { color: #fff; border-bottom: 1px solid var(--neon); margin: 30px 0 10px; font-size: 20px; text-align: right; direction: rtl; }
+        .cmd-item { background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; margin-bottom: 10px; border-right: 3px solid var(--neon); }
+        .cmd-code { color: #79c0ff; font-weight: bold; font-size: 16px; display: block; margin-bottom: 5px; }
+        .cmd-desc { color: #8b949e; font-size: 14px; text-align: right; direction: rtl; }
 
-        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; width: 100%; max-width: 600px; margin-top: 30px; }
-        .app-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
-        .app-icon:hover { transform: scale(1.1); text-shadow: 0 0 10px var(--neon); }
-        .icon-box { width: 60px; height: 60px; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 30px; background: var(--glass); margin-bottom: 5px; }
+        /* Taskbar */
+        .taskbar { 
+            position: fixed; bottom: 0; width: 100%; height: 50px; background: #000; 
+            border-top: 2px solid var(--neon); display: flex; align-items: center; padding: 0 20px; z-index: 1000;
+        }
+        .start-menu { background: var(--neon); color: #000; padding: 8px 20px; font-weight: bold; cursor: pointer; border-radius: 5px; }
+        .sys-info { margin-right: auto; font-size: 14px; letter-spacing: 2px; }
 
-        /* Virtual Terminal */
-        .window { width: 95%; max-width: 1000px; background: #000; border: 2px solid var(--neon); border-radius: 8px; margin-top: 40px; box-shadow: 0 0 50px rgba(0,255,65,0.2); }
-        .win-head { background: #111; padding: 8px; border-bottom: 1px solid var(--neon); display: flex; justify-content: space-between; font-size: 12px; }
-        .win-body { height: 400px; padding: 15px; overflow-y: auto; text-align: left; direction: ltr; }
-
-        /* Sections (The 20 Pages) */
-        .content-area { width: 90%; max-width: 1000px; margin-top: 50px; }
-        .page-section { display: none; background: var(--glass); border: 1px solid var(--neon); padding: 30px; margin-bottom: 30px; border-radius: 15px; animation: fadeIn 0.5s; }
-        .active-section { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        input { background: transparent; border: none; color: #fff; outline: none; width: 80%; font-family: monospace; font-size: 16px; }
-        .btn-nav { background: var(--neon); color: #000; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -41,107 +57,88 @@
 <canvas id="matrix-canvas"></canvas>
 
 <div class="desktop">
-    <div class="top-bar">
-        <span>TMX QUANTUM OS v4.0</span>
-        <span id="live-clock">00:00:00</span>
-        <span>USER: BINER</span>
+    <div class="icon" onclick="openWindow('bible-win')">
+        <div class="icon-img">📖</div>
+        <div class="icon-name">Termux_Bible</div>
+    </div>
+    
+    <div class="icon" onclick="openWindow('terminal-win')">
+        <div class="icon-img">📟</div>
+        <div class="icon-name">TMX_Terminal</div>
     </div>
 
-    <h1 style="text-align: center; letter-spacing: 10px; font-size: 40px;">QUANTUM WORLD</h1>
+    <div id="bible-win" class="window" style="top: 50px; left: 200px; display: flex;">
+        <div class="win-header">
+            <span>DATABASE_EXPLORER.sys</span>
+            <div style="cursor:pointer" onclick="closeWindow('bible-win')">✕</div>
+        </div>
+        <div class="win-body">
+            <h1 style="text-align:center; color:#fff;">فەرماندە BINER: لیستی بێ کۆتایی</h1>
+            
+            <div class="cmd-category"># پشکنینی سیستەم (System)</div>
+            <div class="cmd-item"><span class="cmd-code">top</span><div class="cmd-desc">بینینی هەموو ئەو پڕۆسەیانەی ئێستا لە تێرمۆکس کار دەکەن.</div></div>
+            <div class="cmd-item"><span class="cmd-code">df -h</span><div class="cmd-desc">زانینی بڕی جێگەی بەتاڵ لە میمۆریدا.</div></div>
+            <div class="cmd-item"><span class="cmd-code">uptime</span><div class="cmd-desc">زانینی ئەوەی چەند کاتژمێرە تێرمۆکسەکەت کراوەیە.</div></div>
 
-    <div class="app-grid">
-        <div class="app-icon" onclick="showPage('home')"><div class="icon-box">🏠</div><span>Home</span></div>
-        <div class="app-icon" onclick="showPage('termux')"><div class="icon-box">⌨️</div><span>Termux</span></div>
-        <div class="app-icon" onclick="showPage('scripts')"><div class="icon-box">📜</div><span>Scripts</span></div>
-        <div class="app-icon" onclick="showPage('hacking')"><div class="icon-box">🛡️</div><span>Hacking</span></div>
-        <div class="app-icon" onclick="showPage('python')"><div class="icon-box">🐍</div><span>Python</span></div>
-        <div class="app-icon" onclick="showPage('linux')"><div class="icon-box">🐧</div><span>Linux</span></div>
-        <div class="app-icon" onclick="showPage('tools')"><div class="icon-box">🛠️</div><span>Tools</span></div>
-        <div class="app-icon" onclick="showPage('tiktok')"><div class="icon-box">📱</div><span>TikTok</span></div>
+            <div class="cmd-category"># نێتۆرک و هاکینگ (Networking)</div>
+            <div class="cmd-item"><span class="cmd-code">ping google.com</span><div class="cmd-desc">پشکنینی خێرایی هێڵی ئینتەرنێت.</div></div>
+            <div class="cmd-item"><span class="cmd-code">netstat -tupln</span><div class="cmd-desc">بینینی هەموو پۆرتە کراوەکانی مۆبایلەکەت.</div></div>
+            <div class="cmd-item"><span class="cmd-code">curl -I [url]</span><div class="cmd-desc">هێنانی Headerـی هەر سایتێک بۆ زانیاری کۆکردنەوە.</div></div>
+
+            <div class="cmd-category"># فەرمانی زیاتر (More Commands)</div>
+            <div class="cmd-item"><span class="cmd-code">pkg list-installed</span><div class="cmd-desc">بینینی لیستی هەموو ئەو ئامرازانەی داتبەزاندوون.</div></div>
+            <div class="cmd-item"><span class="cmd-code">rm -rf /sdcard/folder</span><div class="cmd-desc">سڕینەوەی فۆڵدەر بە توندی.</div></div>
+            
+            <p style="color:#555; text-align:center;">[ لیستەکە بەردەوام نوێ دەکرێتەوە لەلایەن BINER ]</p>
+        </div>
     </div>
 
-    <div class="content-area">
-        <div id="home" class="page-section active-section">
-            <h2>بەخێربێیت بۆ نێو دونیای کوانتەم</h2>
-            <p>ئەمە تەنها سایتێک نییە، ئەمە پانتاییەکی بێ کۆتایە بۆ فێربوونی تەکنەلۆژیا. لە ئای کۆنەکانی سەرەوە بەشێک هەڵبژێرە.</p>
+    <div id="terminal-win" class="window" style="top: 150px; left: 400px; width: 600px; height: 400px;">
+        <div class="win-header">
+            <span>TERMINAL_SESSION</span>
+            <div style="cursor:pointer" onclick="closeWindow('terminal-win')">✕</div>
         </div>
-
-        <div id="termux" class="page-section">
-            <h2>فێرکاری تێرمۆکس</h2>
-            <p>تێرمۆکس دەروازەی تۆیە بۆ ناو لینوکس لە مۆبایلدا.</p>
-            <div style="background:#000; padding:10px;">$ pkg update && pkg upgrade</div>
-        </div>
-
-        <div id="hacking" class="page-section">
-            <h2>پاراستن و هاککردن</h2>
-            <p>لێرەدا فێری پاراستنی ئەکاونت و دۆزینەوەی کێشە ئەمنییەکان دەبیت.</p>
-        </div>
-        
-        </div>
-
-    <div class="window">
-        <div class="win-head"><span>TERMINAL EMULATOR</span><span>● ● ●</span></div>
-        <div class="win-body" id="termBody">
-            <div>Welcome Commander Biner. Type 'help' for commands.</div>
-        </div>
-        <div style="padding:10px; background:#050505; display:flex;">
-            <span style="margin-right:10px;">tmx@quantum:~$</span>
-            <input type="text" id="termInput" autofocus>
+        <div class="win-body" style="background:#000; color:var(--neon);">
+            <div>biner@tmx_os:~$ system_check</div>
+            <div style="color:#fff;">[OK] Security Protocol Active</div>
+            <div style="color:#fff;">[OK] Matrix Engine Online</div>
+            <br>
+            <div>biner@tmx_os:~$ <span style="animation: blink 1s infinite;">_</span></div>
         </div>
     </div>
 </div>
 
+<div class="taskbar">
+    <div class="start-menu">TMX START</div>
+    <div class="sys-info">CPU: OPTIMIZED | RAM: STABLE | OS: BINER-QUANTUM</div>
+    <div id="clock">00:00:00</div>
+</div>
+
 <script>
-    // Matrix rain
+    // Matrix Logic
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    const chars = "0101TEAMTMXBINERQUANTUM";
-    const drops = Array(Math.floor(canvas.width/18)).fill(1);
+    const chars = "0101TMXBINER";
+    const drops = Array(Math.floor(canvas.width/20)).fill(1);
     function draw() {
         ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
         ctx.fillStyle = "#0f0"; ctx.font = "15px monospace";
         drops.forEach((y, i) => {
-            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*18, y*18);
-            if(y*18 > canvas.height && Math.random() > 0.98) drops[i] = 0;
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*20, y*20);
+            if(y*20 > canvas.height && Math.random() > 0.98) drops[i] = 0;
             drops[i]++;
         });
     }
     setInterval(draw, 35);
 
-    // Clock
-    setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+    // Clock Logic
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-    // Page Navigation
-    function showPage(id) {
-        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-        const target = document.getElementById(id);
-        if(target) target.classList.add('active-section');
-        else alert("ئەم بەشە لە ژێر پەرەپێداندایە (Coming Soon)");
-    }
-
-    // Terminal Logic
-    const tInput = document.getElementById('termInput');
-    const tBody = document.getElementById('termBody');
-    tInput.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') {
-            const cmd = tInput.value.toLowerCase();
-            tBody.innerHTML += `<div><span style="color:#0f0">tmx@quantum:~$</span> ${cmd}</div>`;
-            if(cmd === 'help') tBody.innerHTML += "<div>Commands: clear, help, whoami, start hack, status</div>";
-            else if(cmd === 'clear') tBody.innerHTML = '';
-            else if(cmd === 'whoami') tBody.innerHTML += "<div>YOU ARE THE CREATOR: BINER</div>";
-            else if(cmd === 'start hack') {
-                let i = 0;
-                const intv = setInterval(() => {
-                    tBody.innerHTML += "<div>[SYSTEM] Bypassing Layer " + i + "...</div>";
-                    tBody.scrollTop = tBody.scrollHeight;
-                    i++; if(i > 5) clearInterval(intv);
-                }, 500);
-            }
-            tInput.value = '';
-            tBody.scrollTop = tBody.scrollHeight;
-        }
-    });
+    // OS Logic
+    function openWindow(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
 </script>
+
 </body>
 </html>
