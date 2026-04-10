@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
-        /* ڕێکخستنی بنەڕەتی */
         body { 
             background-color: #050505; 
             color: white; 
@@ -27,19 +26,17 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
         }
         
-        /* چوارچێوەی سەرەکی کە شاشەکە پڕ دەکاتەوە */
         .main-container {
-            width: 100%; /* بۆ مۆبایل شاشەکە پڕ دەکات */
-            max-width: 900px; /* بۆ کۆمپیوتەر زیاد لە پێویست پان نابێت */
+            width: 100%;
+            max-width: 900px;
             margin: 10px auto;
             position: relative;
         }
 
-        /* پلەیەرەکە کە بەقەد شاشەکە پان دەبێتەوە */
         .video-box {
             width: 100%;
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%;
             height: 0;
             background: #000;
         }
@@ -53,16 +50,15 @@
             border: none;
         }
 
-        /* 🚩 لۆگۆکە - ئێستا لە مۆبایلیشدا بە ڕوونی دیارە */
+        /* 🚩 لۆگۆی BENAR - ڕێکخراو بۆ وپەڕی لای چەپ و مانەوە لە کاتی Full Screen */
         .tmx-logo {
             position: absolute !important;
-            top: 5px !important;
-            left: 5px !important;
-            width: 18% !important; /* قەبارەکەی بەپێی شاشەکە دەگۆڕێت */
-            max-width: 80px; /* زیاد لە پێویست گەورە نابێت */
-            min-width: 50px; /* زیاد لە پێویست بچووک نابێت */
+            top: 3px !important;    /* کەمێک بەرزتر بۆ داپۆشینی ورد */
+            left: 3px !important;   /* 👈 چوو بۆ وپەڕی لای چەپ */
+            width: 70px !important; 
             height: auto;
-            z-index: 999999 !important;
+            /* ⚠️ ئەم دێڕەی خوارەوە ناهێڵێت لۆگۆکە ون بێت کاتێک فیلمەکە گەورە دەکرێت */
+            z-index: 2147483647 !important; 
             pointer-events: none;
             filter: drop-shadow(0 0 5px rgba(0,0,0,1));
         }
@@ -78,17 +74,11 @@
 
         h1 { color: #f1c40f; font-size: 18px; margin: 0; }
         p { color: #bbb; font-size: 14px; margin-top: 8px; }
-
-        /* ڕێکخستن بۆ کۆمپیوتەر */
-        @media (min-width: 768px) {
-            header { font-size: 24px; }
-            .main-container { margin: 30px auto; }
-        }
     </style>
 </head>
 <body>
 
-    <header>🍿 TMX TERMINAL CINEMA</header>
+    <header>🍿 سینەما تی ئێم ئێکس تێرمینال</header>
 
     <div class="main-container">
         <img src="logo.png" class="tmx-logo" alt="BENAR">
@@ -99,7 +89,7 @@
 
         <div class="details">
             <h1>The Skeleton's Compass 🎬 (2022)</h1>
-            <p>بەخێربێن بۆ سینەمای BENAR MOVIES.</p>
+            <p>بەخێربێن بۆ سینەمای BENAR MOVIES. لۆگۆکە جێگیر کرا لە وپەڕی لای چەپ.</p>
         </div>
     </div>
 
