@@ -3,23 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200">
-    <title>TMX MULTI-CORE OS</title>
-    <link rel="stylesheet" href="style.css">
+    <title>TMX TERMINAL UNIVERSE</title>
+    <style>
+        :root { --neon: #00ff41; --danger: #ff0055; --bg: #050505; --accent: #bc13fe; }
+        body { margin: 0; background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; overflow: hidden; }
+        
+        /* مێزی کارکردن (Desktop) */
+        .desktop { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; padding: 30px; }
+        .icon { text-align: center; cursor: pointer; transition: 0.3s; }
+        .icon:hover { filter: drop-shadow(0 0 10px var(--accent)); transform: translateY(-5px); }
+        .icon-img { font-size: 50px; }
+
+        /* پەنجەرەکان */
+        .window { 
+            position: absolute; width: 80%; height: 75%; background: rgba(0,0,0,0.9); 
+            border: 2px solid var(--accent); border-radius: 10px; display: none; 
+            flex-direction: column; top: 10%; left: 10%; box-shadow: 0 0 40px rgba(188, 19, 254, 0.2);
+            z-index: 10; backdrop-filter: blur(10px);
+        }
+        .win-head { background: var(--accent); color: white; padding: 10px; display: flex; justify-content: space-between; font-weight: bold; }
+        .win-body { flex: 1; padding: 20px; overflow-y: auto; text-align: left; direction: ltr; }
+
+        /* تێرمیناڵ (شوێنی نوسین و تاقیکردنەوە) */
+        .terminal-box { background: #000; border: 1px solid var(--neon); padding: 10px; margin-top: 20px; height: 150px; overflow-y: auto; }
+        .input-line { display: flex; align-items: center; color: var(--neon); }
+        .input-line input { background: transparent; border: none; color: white; outline: none; width: 100%; font-family: monospace; font-size: 16px; }
+
+        /* دێڕەکانی کۆد (١٥٠٠ دێڕ) */
+        .line { display: flex; border-bottom: 1px solid #111; padding: 2px 0; font-size: 13px; }
+        .ln { color: #555; width: 40px; border-right: 1px solid #222; margin-right: 10px; }
+        code { color: var(--neon); }
+        .cmt { color: #666; font-style: italic; margin-left: 10px; }
+
+        .close { color: white; cursor: pointer; font-size: 20px; }
+    </style>
 </head>
 <body>
-    <canvas id="matrix"></canvas>
+
     <div class="desktop">
-        <div class="icon" onclick="openWin('sys-win')"><span>⚙️</span><p>System</p></div>
-        <div class="icon" onclick="openWin('hack-win')"><span>📡</span><p>Network</p></div>
-        <div class="icon" onclick="checkOffice()"><span>🔐</span><p>Biner_Office</p></div>
+        <div class="icon" onclick="openWin('core')"><div class="icon-img">🌀</div><span>Core</span></div>
+        <div class="icon" onclick="openWin('hack')"><div class="icon-img">💀</div><span>Exploits</span></div>
+        <div class="icon" onclick="checkOffice()"><div class="icon-img">👑</div><span>TMX_OFFICE</span></div>
     </div>
 
-    <div id="sys-win" class="window"><div class="win-head">System Terminal <span onclick="closeWin('sys-win')">✕</span></div><div class="win-body" id="sys-data"></div></div>
-    <div id="hack-win" class="window"><div class="win-head">Hacking Tools <span onclick="closeWin('hack-win')">✕</span></div><div class="win-body" id="hack-data"></div></div>
-    <div id="office-win" class="window"><div class="win-head">Private Office <span onclick="closeWin('office-win')">✕</span></div><div class="win-body" id="office-data"></div></div>
+    <div id="office-win" class="window">
+        <div class="win-head">TMX MASTER OFFICE <span class="close" onclick="closeWin('office-win')">✕</span></div>
+        <div class="win-body" id="office-body">
+            <h2 style="color:gold">بەخێربێیت فەرماندە - بەشی فەرمانە VIP-ەکان</h2>
+            <div id="office-content"></div>
+        </div>
+    </div>
 
-    <script src="system.js"></script>
-    <script src="hacking.js"></script>
-    <script src="office.js"></script>
+    <div id="terminal-win" class="window" style="display: flex; height: 50%; top: 45%; border-color: var(--neon);">
+        <div class="win-head" style="background: var(--neon); color: #000;">TMX SIMULATOR (TRY COMMANDS)</div>
+        <div class="win-body">
+            <div id="output">Welcome to TMX Terminal... Type 'help' to start.</div>
+            <div class="input-line">
+                <span>tmx@honor-x9c:~$ &nbsp;</span>
+                <input type="text" id="cmd-input" autofocus onkeypress="runCommand(event)">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASS = "2010aa";
+
+        function openWin(id) { document.getElementById(id + '-win').style.display = 'flex'; }
+        function closeWin(id) { document.getElementById(id).style.display = 'none'; }
+
+        // چاککردنی کێشەی ئۆفیس
+        function checkOffice() {
+            let p = prompt("ENTER ACCESS KEY:");
+            if(p === PASS) {
+                document.getElementById('office-win').style.display = 'flex';
+                load1500Data('office-content', 'tmx-vip-cmd --id-', 'فەرمانی زێڕینی ژمارە ');
+            } else {
+                alert("پاسۆرد هەڵەیە! دەسەڵاتت نییە.");
+            }
+        }
+
+        // دروستکردنی ١٥٠٠ دێڕەکە
+        function load1500Data(targetId, cmdPrefix, descPrefix) {
+            const box = document.getElementById(targetId);
+            box.innerHTML = ""; 
+            let frag = document.createDocumentFragment();
+            for(let i=1; i<=1500; i++) {
+                let div = document.createElement('div');
+                div.className = 'line';
+                div.innerHTML = `<span class="ln">${i}</span><code>${cmdPrefix}${i}</code><span class="cmt">// ${descPrefix}${i}</span>`;
+                frag.appendChild(div);
+            }
+            box.appendChild(frag);
+        }
+
+        // سیستەمی تاقیکردنەوەی فەرمانەکان (Terminal Simulator)
+        function runCommand(e) {
+            if(e.key === "Enter") {
+                const input = document.getElementById('cmd-input');
+                const output = document.getElementById('output');
+                const cmd = input.value.toLowerCase();
+                
+                output.innerHTML += `<br><span style="color:gray;">> ${cmd}</span>`;
+                
+                if(cmd === "help") {
+                    output.innerHTML += "<br>Available: pkg install, nmap, whoami, clear, tmx-hack";
+                } else if(cmd.startsWith("pkg install")) {
+                    output.innerHTML += `<br><span style="color:yellow;">Installing ${cmd.split(' ')[2]}... [##########] 100%</span>`;
+                } else if(cmd === "whoami") {
+                    output.innerHTML += "<br>Commander_TMX_HonorX9c";
+                } else if(cmd === "clear") {
+                    output.innerHTML = "Terminal cleared.";
+                } else {
+                    output.innerHTML += `<br><span style="color:red;">Command not found: ${cmd}</span>`;
+                }
+                
+                input.value = "";
+                document.querySelector('.win-body').scrollTop = document.querySelector('.win-body').scrollHeight;
+            }
+        }
+    </script>
 </body>
 </html>
