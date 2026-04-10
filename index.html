@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: #e50914; padding: 15px 0; text-align: center; font-size: 20px; font-weight: bold; }
+        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: #e50914; padding: 15px 0; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         
         .main-container {
             width: 95%;
             max-width: 800px;
             margin: 20px auto;
-            position: relative;
+            position: relative; /* ئەمە وا دەکات لۆگۆکە لەسەر ڤیدیۆکە جێگیر بێت */
         }
 
         .video-box {
@@ -23,6 +23,7 @@
             background: #000;
             border-radius: 8px;
             overflow: hidden;
+            border: 1px solid #333;
         }
 
         .video-box iframe {
@@ -34,20 +35,30 @@
             border: none;
         }
 
-        /* 🚩 لۆگۆکە هێنراوەتە ناوەوە تا لە شاشە دەرنەچێت */
+        /* 🚩 لۆگۆکە لێرە بە وریایی ڕێکخراوە تا لە شاشە دەرنەچێت */
         .tmx-logo {
             position: absolute !important;
-            top: 45px !important;    /* 👈 هێناومەتە خوارەوە تا نەچێتە دەرەوەی شاشە */
-            left: 15px !important;   /* 👈 کەمێک هێناومەتە ناوەوە */
-            width: 60px !important;  /* قەبارەی گونجاو */
+            top: 10px !important;    /* مەودای گونجاو لە سەرەوە */
+            left: 10px !important;   /* مەودای گونجاو لە لای چەپ */
+            width: 65px !important;  /* قەبارەیەکی مامناوەند بۆ مۆبایل */
             height: auto;
             z-index: 999999 !important;
             pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,1));
         }
 
-        .details { background: #111; padding: 20px; margin-top: 15px; border-radius: 8px; text-align: right; border-right: 4px solid #e50914; }
-        h1 { color: #f1c40f; font-size: 18px; }
-        p { color: #bbb; font-size: 14px; }
+        .details { 
+            background: #111; 
+            padding: 20px; 
+            margin-top: 15px; 
+            border-radius: 8px; 
+            text-align: right; 
+            border-right: 4px solid #e50914;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h1 { color: #f1c40f; font-size: 18px; margin: 0; }
+        p { color: #bbb; font-size: 14px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -55,17 +66,7 @@
     <header>🍿 TMX TERMINAL CINEMA</header>
 
     <div class="main-container">
-        <img src="Screenshot_20260409_145229_com.android_chrome_DownloadActivity.png" class="tmx-logo" alt="BENAR">
+        <img src="logo.png" class="tmx-logo" alt="BENAR">
 
         <div class="video-box">
-            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen"></iframe>
-        </div>
-
-        <div class="details">
-            <h1>The Skeleton's Compass 🎬</h1>
-            <p>بەخێربێن بۆ سینەمای BENAR MOVIES.</p>
-        </div>
-    </div>
-
-</body>
-</html>
+            <iframe src="https
