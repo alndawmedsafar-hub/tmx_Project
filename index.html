@@ -3,23 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biner Programming | بینەر</title>
+    <title>Team TMX | Scripts Hub</title>
     <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
-        .container { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 90%; }
-        h1 { color: #238636; margin-bottom: 10px; }
-        .terminal { background-color: #010409; border-radius: 6px; padding: 15px; text-align: left; font-family: monospace; margin: 20px 0; border-left: 4px solid #238636; }
-        .btn { display: inline-block; background-color: #238636; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; }
+        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 600px; width: 100%; }
+        h1 { color: #238636; margin-bottom: 5px; font-size: 35px; text-transform: uppercase; }
+        .tagline { color: #8b949e; margin-bottom: 25px; font-size: 16px; }
+        .section-title { color: #58a6ff; text-align: right; width: 100%; margin-top: 20px; border-right: 4px solid #58a6ff; padding-right: 10px; }
+        .script-box { background-color: #010409; border-radius: 8px; padding: 15px; text-align: left; font-family: monospace; margin: 15px 0; border: 1px solid #30363d; position: relative; }
+        .script-header { color: #79c0ff; font-size: 12px; margin-bottom: 10px; display: block; }
+        code { color: #d2a8ff; word-break: break-all; }
+        .btn { display: inline-block; background-color: #238636; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 10px 5px; transition: 0.3s; font-size: 14px; }
+        .btn:hover { background-color: #2ea043; transform: translateY(-2px); }
+        .copy-btn { position: absolute; left: 10px; top: 10px; background: #30363d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 10px; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Biner Programming</h1>
-        <p>بەخێربێن بۆ پلاتفۆرمی فەرمی بینەر</p>
-        <div class="terminal">
-            <span style="color: #d2a8ff;">$</span> status: ready_to_code
+        <h1>TEAM TMX</h1>
+        <p class="tagline">پلاتفۆرمی فەرمی بڵاوکردنەوەی سکرێپت و پڕۆژەکانی تێرمۆکس</p>
+        
+        <h3 class="section-title">سکرێپتە بەردەستەکان</h3>
+        
+        <div class="script-box">
+            <span class="script-header"># Update & Upgrade Script</span>
+            <code>pkg update && pkg upgrade -y && pkg install python git -y</code>
         </div>
+
+        <div class="script-box">
+            <span class="script-header"># Team TMX Basic Tools</span>
+            <code>git clone https://github.com/alndawmedsafar-hub/tmx_Project</code>
+        </div>
+
+        <h3 class="section-title">بەستەرەکان</h3>
         <a href="https://www.tiktok.com/@alndawmedsafar_hub" class="btn">چەناڵی تیکتۆک</a>
+        <a href="#" class="btn" style="background-color: #8b949e;">Scripts زیاتر</a>
     </div>
+
+    <p style="color: #484f58; margin-top: 20px; font-size: 12px;">© 2026 TEAM TMX | Developed by Biner</p>
+
 </body>
 </html>
