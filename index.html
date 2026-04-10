@@ -5,87 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
-        /* ڕێکخستنی گشتی لاپەڕە */
-        body { 
-            background-color: #050505; 
-            color: white; 
-            font-family: sans-serif; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
-
-        /* بەشی سەردێڕی سوور */
-        header { 
-            width: 100%; 
-            background: #e50914; 
-            padding: 20px 0; 
-            text-align: center; 
-            font-size: 24px; 
-            font-weight: bold; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
-            letter-spacing: 2px;
-        }
+        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 24px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         
-        /* چوارچێوەی فیلمەکە */
         .container { 
             width: 95%; 
             max-width: 900px; 
             margin: 30px auto; 
             background: #111; 
-            position: relative; /* بۆ ئەوەی لۆگۆکە لەسەری دابنیشێت */
+            position: relative; 
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #222;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
-        /* بەشی پلەیەری ڤیدیۆ */
-        .video-container { 
-            position: relative; 
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0; 
-            overflow: hidden;
-        }
-        .video-container iframe { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            border: none; 
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
         }
 
-        /* 🚩 لۆگۆی BENAR - ڕێکخراوە بۆ وپەڕی سووچی لای چەپ */
-        .tmx-logo {
+        .video-wrapper iframe {
             position: absolute;
-            top: 5px;    /* کەمێک مەودا لە سەرەوە */
-            left: 5px;   /* 👈 ئەمە دەیبات بۆ وپەڕی لای چەپ بۆ داپۆشینی لۆگۆی تر */
-            width: 110px; /* قەبارەی لۆگۆکەت */
-            height: auto;
-            z-index: 9999; /* دڵنیایی دەدات کە لەسەرەوەیە */
-            pointer-events: none; /* ڕێگری لە کلیک نەکات لەسەر ڤیدیۆکە */
-            filter: drop-shadow(0 0 10px rgba(0,0,0,1)); /* بۆ ئەوەی جوانتر دیار بێت */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
-        /* بەشی وردەکارییەکانی فیلم */
-        .details { 
-            padding: 25px; 
-            border-top: 3px solid #e50914; 
-            background: #161616; 
+        /* 🚩 لۆگۆ بچووک کراوەتەوە و ڕێکخراوە بۆ سەر لۆگۆکەی تر */
+        .tmx-logo {
+            position: absolute !important;
+            top: 8px !important;    /* مەودا لە سەرەوە */
+            left: 8px !important;   /* ڕێک دەچێتە سووچی لای چەپ */
+            width: 75px !important;  /* 👈 قەبارەکەم زۆر بچووک کردەوە بۆ ئەوەی ڕێک بێت */
+            height: auto;
+            z-index: 2147483647 !important;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,1));
         }
-        h1 { 
-            color: #f1c40f; 
-            font-size: 22px; 
-            margin: 0 0 10px 0; 
-            text-align: right; 
-        }
-        p { 
-            color: #bbb; 
-            font-size: 15px; 
-            margin: 0; 
-            text-align: right; 
-            line-height: 1.6;
-        }
+
+        .details { padding: 25px; border-top: 3px solid #e50914; background: #161616; text-align: right; }
+        h1 { color: #f1c40f; font-size: 20px; margin-bottom: 10px; }
+        p { color: #bbb; font-size: 14px; line-height: 1.6; }
     </style>
+</head>
+<body>
+
+    <header>🍿 TMX TERMINAL CINEMA</header>
+
+    <div class="container">
+        <img src="benar%20logo.png" class="tmx-logo" alt="BENAR MOVIES">
+
+        <div class="video-wrapper">
+            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        </div>
+
+        <div class="details">
+            <h1>The Skeleton's Compass🎬 (2022)</h1>
+            <p>بەخێربێن بۆ سینەمای BENAR MOVIES.</p>
+        </div>
+    </div>
+
+</body>
+</html>
