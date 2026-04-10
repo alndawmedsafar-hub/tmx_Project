@@ -2,96 +2,183 @@
 <html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMX MOVIE DUBBING FACTORY</title>
+    <meta name="viewport" content="width=1200">
+    <title>TMX MOVIE & TERMINAL UNIVERSE</title>
     <style>
-        :root { --main: #e50914; --bg: #000000; --neon: #00ff41; --gold: #ffd700; }
-        body { background: var(--bg); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; overflow-x: hidden; }
+        :root { --neon: #00ff41; --accent: #bc13fe; --bg: #050505; --gold: #ffd700; --main: #e50914; }
+        body { margin: 0; background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; overflow: hidden; }
         
-        /* Header Section */
-        header { background: linear-gradient(to bottom, rgba(229, 9, 20, 0.3), transparent); padding: 40px; text-align: center; border-bottom: 2px solid var(--main); }
-        .logo { font-size: 3rem; font-weight: bold; color: var(--main); text-shadow: 0 0 20px var(--main); letter-spacing: 5px; }
+        /* Desktop icons */
+        .desktop { display: flex; flex-wrap: wrap; gap: 30px; padding: 40px; padding-bottom: 250px; }
+        .icon { width: 100px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .icon:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--accent)); }
+        .icon span { font-size: 50px; display: block; margin-bottom: 5px; }
 
-        /* Working Area */
-        .container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 30px; }
-        
-        /* Video Player Box */
-        .video-box { background: #111; border: 2px dashed #444; border-radius: 15px; height: 400px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        /* Window Style */
+        .window { 
+            position: absolute; width: 90%; height: 85%; background: rgba(0,0,0,0.98); 
+            border: 2px solid var(--accent); border-radius: 12px; display: none; 
+            flex-direction: column; top: 5%; left: 5%; z-index: 100; box-shadow: 0 0 50px rgba(188,19,254,0.4);
+        }
+        .win-head { background: var(--accent); color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; font-weight: bold; align-items: center; cursor:move;}
+        .win-body { flex: 1; padding: 25px; overflow-y: auto; text-align: left; direction: ltr; background: #000; }
+        .close-btn { cursor: pointer; font-size: 24px; font-weight: bold; }
+
+        /* 1500 Lines Style */
+        .line { display: flex; border-bottom: 1px solid #111; padding: 4px 0; font-size: 14px; }
+        .ln { color: #444; width: 50px; border-right: 1px solid #222; margin-right: 15px; flex-shrink: 0; text-align:right;}
+        code { color: var(--neon); font-weight: bold; }
+        .cmt { color: #666; margin-left: 15px; font-style: italic; }
+
+        /* Movie Factory UI Style */
+        .movie-container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; color:white; font-family:sans-serif;}
+        .video-box { background: #111; border: 2px dashed #444; border-radius: 15px; height: 350px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .video-box:hover { border-color: var(--neon); }
-
-        /* Control Panel */
-        .panel { background: #181818; padding: 25px; border-radius: 15px; border: 1px solid #333; }
-        h3 { color: var(--gold); border-bottom: 1px solid #333; padding-bottom: 10px; }
-        
-        .btn { background: var(--main); color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 15px; transition: 0.3s; }
+        .watermark { position: absolute; bottom: 15px; right: 15px; opacity: 0.4; color: var(--gold); font-weight: bold; font-size: 18px; pointer-events: none; border: 1px solid var(--gold); padding: 4px 8px; border-radius: 4px; z-index: 5; }
+        .panel { background: #181818; padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        .panel h3 { color: var(--gold); border-bottom: 1px solid #333; padding-bottom: 8px; margin-top:0;}
+        .btn { background: var(--main); color: white; border: none; padding: 10px 15px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 12px; transition: 0.3s; font-size:15px;}
         .btn:hover { background: #ff1f1f; transform: scale(1.02); }
         .btn-neon { background: transparent; border: 1px solid var(--neon); color: var(--neon); }
         .btn-neon:hover { background: var(--neon); color: black; }
+        .log { background: #000; border: 1px solid #222; height: 120px; padding: 10px; font-family: monospace; font-size: 13px; color: var(--neon); overflow-y: auto; margin-top: 15px; direction:ltr; text-align:left;}
 
-        /* Status Log */
-        .log { background: #000; border: 1px solid #222; height: 150px; padding: 10px; font-family: monospace; font-size: 13px; color: var(--neon); overflow-y: auto; margin-top: 15px; }
+        /* Terminal Style (Bottom Fixed) */
+        .term-container { position: fixed; bottom: 10px; width: 96%; left: 2%; z-index: 50; border: 1px solid var(--neon); border-radius: 8px; overflow: hidden; background:#000; box-shadow: 0 0 20px rgba(0,255,65,0.2); }
+        #output { height: 150px; padding: 15px; overflow-y: auto; border-bottom: 1px solid #222; font-size: 15px; direction:ltr; text-align:left;}
+        .input-area { background: #111; padding: 10px; display: flex; align-items: center; direction:ltr; text-align:left;}
+        #cmd-in { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-family: monospace; font-size: 17px; margin-left: 10px; }
+        
+        select { width:100%; padding:8px; margin-bottom:12px; background:#333; color:white; border:none; border-radius:4px;}
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">TMX MOVIE FACTORY</div>
-    <p>سیستەمی هۆشمەندی دۆبلاژ و بەرزکردنەوەی کوالێتی فیلم</p>
-</header>
+    <div class="desktop">
+        <div class="icon" onclick="openWin('core')"><span>🌀</span><p>Core Sys</p></div>
+        <div class="icon" onclick="openWin('hack')"><span>💀</span><p>Hacking</p></div>
+        <div class="icon" onclick="openWin('movie')"><span>🎬</span><p>Movie Factory</p></div>
+        <div class="icon" onclick="checkOffice()"><span>👑</span><p>TMX_OFFICE</p></div>
+    </div>
 
-<div class="container">
-    <div class="main-side">
-        <div class="video-box" id="drop-zone">
-            <div id="status-text">ڤیدیۆکە لێرە دابنێ (Drag & Drop) یان کلیک بکە</div>
+    <div id="main-win" class="window">
+        <div class="win-head">
+            <span id="win-title">SYSTEM_EXPLORER</span>
+            <span class="close-btn" onclick="closeWin()">✕</span>
         </div>
-        
-        <div class="log" id="log-screen">
-            [SYSTEM]: ئامادەیە بۆ وەرگرتنی فیلم...<br>
-            [INFO]: پڕۆسێسەری Honor X9c چالاکە...
+        <div class="win-body" id="content-area"></div>
+    </div>
+
+    <div class="term-container">
+        <div id="output">Welcome Commander TMX to Terminal 1.0... Type 'help' for commands.</div>
+        <div class="input-area">
+            <span style="color:var(--neon)">tmx@honor-x9c:~$</span>
+            <input type="text" id="cmd-in" onkeypress="handleCommand(event)" autofocus>
         </div>
     </div>
 
-    <div class="panel">
-        <h3>کۆنتڕۆڵی دۆبلاژ</h3>
-        <button class="btn" onclick="startProcess('dub')">دەستپێکردنی دۆبلاژی کوردی</button>
-        <button class="btn btn-neon" onclick="startProcess('4k')">بەرزکردنەوەی کوالێتی (4K)</button>
-        
-        <h3>ڕێکخستنەکان</h3>
-        <label>زمانی سەرەکی:</label>
-        <select style="width:100%; padding:10px; margin-bottom:15px; background:#333; color:white; border:none;">
-            <option>ئینگلیزی (English)</option>
-            <option>عەرەبی (Arabic)</option>
-            <option>تورکی (Turkish)</option>
-        </select>
+    <script>
+        const PASS = "2010aa";
 
-        <label>جۆری دەنگی دۆبلاژ:</label>
-        <select style="width:100%; padding:10px; margin-bottom:15px; background:#333; color:white; border:none;">
-            <option>دەنگی پیاو (کوردی AI)</option>
-            <option>دەنگی ئافرەت (کوردی AI)</option>
-        </select>
+        // Real commands for variety
+        const realCore = ["apt update", "pkg install python", "termux-setup-storage", "pkg install git", "pkg install wget", "pkg install curl", "pkg install php", "pkg install nano", "pkg install ruby", "pkg install clang"];
+        const realHack = ["nmap -v", "sqlmap --wizard", "msfconsole", "pkg install hydra", "pkg install tshark", "git clone https://github.com/sqlmapproject/sqlmap", "pkg install nikto", "bettercap -iface wlan0"];
 
-        <button class="btn" style="background:var(--gold); color:black;" onclick="downloadVideo()">داگرتنی فیلمی کۆتایی</button>
-    </div>
-</div>
-
-<script>
-    function startProcess(type) {
-        const log = document.getElementById('log-screen');
-        if(type === 'dub') {
-            log.innerHTML += "<br>[DUB]: خەریکی جیاکردنەوەی دەنگم...";
-            setTimeout(() => { log.innerHTML += "<br>[DUB]: وەرگێڕان بۆ کوردی تەواو بوو."; }, 2000);
-            setTimeout(() => { log.innerHTML += "<br>[DUB]: دەنگی نوێ لکێندرا بە ڤیدیۆکە."; }, 4000);
-        } else {
-            log.innerHTML += "<br>[VIDEO]: خەریکی بەرزکردنەوەی ڕوونی (Frame Reconstruction)...";
-            setTimeout(() => { log.innerHTML += "<br>[VIDEO]: کوالێتی گۆڕدرا بۆ 2160p (4K)."; }, 3000);
+        function openWin(mode) {
+            const win = document.getElementById('main-win');
+            const title = document.getElementById('win-title');
+            const body = document.getElementById('content-area');
+            win.style.display = 'flex';
+            
+            if (mode === 'movie') {
+                title.innerText = "TMX MOVIE DUBBING FACTORY (AI POWERED)";
+                loadMovieFactory(body);
+            } else {
+                title.innerText = "TMX " + mode.toUpperCase() + " REPOSITORY (1500 LINES)";
+                load1500Data(body, mode);
+            }
         }
-    }
 
-    function downloadVideo() {
-        alert("فەرماندە، ڤیدیۆکە ئامادەیە و خەریکە دادەبەزێت!");
-    }
-</script>
+        function closeWin() { document.getElementById('main-win').style.display = 'none'; }
 
+        function checkOffice() {
+            let key = prompt("TMX MASTER ACCESS KEY:");
+            if(key === PASS) { openWin('office'); }
+            else { alert("ACCESS DENIED! Invalid Key."); }
+        }
+
+        // 1. Function to load 1500 distinct lines
+        function load1500Data(body, mode) {
+            let html = "";
+            let realList = (mode === 'core') ? realCore : (mode === 'hack') ? realHack : ["tmx --admin", "proxychains4", "openssl genrsa"];
+            let desc = (mode === 'core') ? "سیستەم" : (mode === 'hack') ? "هاکینگ" : "سکرێپتی نهێنی";
+
+            for(let i=1; i<=1500; i++) {
+                let cmdLine = (i <= realList.length) ? realList[i-1] : (mode === 'core' ? `pkg install lib-tmx-v${i}` : mode === 'hack' ? `git clone tmx/tool-id-${i}` : `tmx-vip-execute --payload-v${i}`);
+                html += `<div class="line"><span class="ln">${i}</span><code>${cmdLine}</code><span class="cmt">// فەرمانی ${desc} - دێڕی ${i}</span></div>`;
+            }
+            body.innerHTML = html;
+        }
+
+        // 2. Function to load Movie Factory Interface
+        function loadMovieFactory(body) {
+            body.innerHTML = `
+                <div class="movie-container">
+                    <div class="main-side">
+                        <div class="video-box" id="drop-zone">
+                            <div id="status-text" style="color:#aaa;">ڤیدیۆکە لێرە دابنێ (Drag & Drop)</div>
+                            <div class="watermark">PROPERTY OF TMX</div>
+                        </div>
+                        <div class="log" id="movie-log">[SYSTEM]: ئامادەیە بۆ وەرگرتنی فیلم...</div>
+                    </div>
+                    <div class="panel">
+                        <h3>کۆنتڕۆڵی دۆبلاژ</h3>
+                        <button class="btn" onclick="startMovieProcess('dub')">دەستپێکردنی دۆبلاژی کوردی (AI)</button>
+                        <button class="btn btn-neon" onclick="startMovieProcess('4k')">بەرزکردنەوەی کوالێتی (4K)</button>
+                        <h3>ڕێکخستنەکان</h3>
+                        <label>زمانی سەرەکی:</label>
+                        <select><option>ئینگلیزی (English)</option><option>عەرەبی (Arabic)</option><option>تورکی (Turkish)</option></select>
+                        <label>جۆری دەنگ:</label>
+                        <select><option>دەنگی پیاو (کوردی AI)</option><option>دەنگی ئافرەت (کوردی AI)</option></select>
+                        <button class="btn" style="background:var(--gold); color:black;" onclick="alert('فەرماندە، ڤیدیۆکە ئامادەیە و خەریکە دادەبەزێت!')">داگرتنی فیلمی کۆتایی</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Movie process simulation
+        function startMovieProcess(type) {
+            const log = document.getElementById('movie-log');
+            log.innerHTML = "[SYSTEM]: پڕۆسەکە دەستی پێکرد...";
+            if(type === 'dub') {
+                setTimeout(() => { log.innerHTML += "<br>[DUB]: خەریکی جیاکردنەوەی دەنگم..."; }, 1000);
+                setTimeout(() => { log.innerHTML += "<br>[DUB]: وەرگێڕان بۆ کوردی تەواو بوو."; }, 2500);
+                setTimeout(() => { log.innerHTML += "<br>[DUB]: دەنگی نوێی TMX لکێندرا بە ڤیدیۆکە."; }, 4000);
+            } else {
+                setTimeout(() => { log.innerHTML += "<br>[VIDEO]: خەریکی پشکنینی فریمەکانم..."; }, 1000);
+                setTimeout(() => { log.innerHTML += "<br>[VIDEO]: کوالێتی بەرزکرایەوە بۆ 4K (2160p)."; }, 3000);
+            }
+        }
+
+        // Terminal logic
+        function handleCommand(e) {
+            if(e.key === "Enter") {
+                const out = document.getElementById('output');
+                const inp = document.getElementById('cmd-in');
+                const val = inp.value.toLowerCase().trim();
+                out.innerHTML += `<br><span style="color:#aaa;">> ${val}</span>`;
+                
+                if(val === "help") out.innerHTML += "<br>Commands: <span style='color:yellow'>nmap, whoami, clear, pkg install, tmx-status</span>";
+                else if(val === "whoami") out.innerHTML += "<br>Commander_TMX_Official_HonorX9c";
+                else if(val === "clear") out.innerHTML = "Terminal screen cleared.";
+                else if(val === "tmx-status") out.innerHTML += "<br>CPU: Ultra | RAM: Stable | Dubbing Engine: Online";
+                else if(val.startsWith("pkg install")) out.innerHTML += `<br>Installing package... [##########] 100% Complete.`;
+                else out.innerHTML += `<br><span style="color:red;">Error: Command '${val}' not recognized.</span>`;
+                
+                inp.value = "";
+                out.scrollTop = out.scrollHeight;
+            }
+        }
+    </script>
 </body>
 </html>
- 
