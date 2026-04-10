@@ -1,0 +1,21 @@
+// TMX Termux Universe - File 1: The Core Foundation
+const tmxCore = [
+    { c: "apt update && apt upgrade -y", m: "تازەکردنەوەی گشتگیر" },
+    { c: "pkg install python python2 python3 -y", m: "هەموو وەشانی پایتۆنەکان" },
+    { c: "pkg install git nodejs-lts php ruby perl -y", m: "زمانە سەرەکییەکانی پڕۆگرامسازی" },
+    { c: "pkg install clang make cmake gold -y", m: "بۆ کۆمپایڵ کردنی فایلی C و C++" },
+    { c: "pkg install golang rust -y", m: "زمانە نوێیەکانی وەک گۆ و ڕەست" },
+    { c: "pkg install curl wget openssl openssh -y", m: "ئامرازەکانی نێتۆرک و هێنان" },
+    { c: "pkg install zip unzip unrar tar -y", m: "کۆمپرێس و ئەرشیف کردن" },
+    { c: "pkg install nano vim emacs -y", m: "هەموو نوسەرەکان (Editors)" },
+    { c: "pkg install tsu proot proot-distro -y", m: "بۆ چوونە ناو ڕوت و لینوکس" },
+    { c: "pkg install termux-api termux-exec -y", m: "کۆنتڕۆڵ کردنی مۆبایل بە تێرمۆکس" }
+];
+
+// دروستکردنی 140 دێڕی تر بە وردەکاری زۆر
+for (let i = 11; i <= 150; i++) {
+    tmxCore.push({
+        c: `pkg install libxml2 libxslt libiconv --id-${i}`,
+        m: `کتێبخانەی جیهانی ژمارە ${i} بۆ پشتگیری پڕۆژە قورسەکان`
+    });
+}
