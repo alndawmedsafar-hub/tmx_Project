@@ -6,7 +6,7 @@
     <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
         body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 24px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 24px; font-weight: bold; }
         
         .container { 
             width: 95%; 
@@ -22,16 +22,16 @@
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* 🚩 لۆگۆی تایبەتی تۆ بۆ داپۆشینی لۆگۆی پێشوو */
+        /* 🚩 لۆگۆی BENAR - ڕێکخراوە بۆ داپۆشینی لۆگۆی ژێرەوە */
         .tmx-logo {
             position: absolute;
-            top: 5px;    /* بەرزی لە سەرەوە */
-            left: 5px;   /* شوێنەکەی لە لای چەپ */
-            width: 120px; /* قەبارەکەی لێرە گەورە بکە تا لۆگۆ کۆنەکە بە تەواوی ون دەبێت */
+            top: 20px;    /* بەرزی لە سەرەوە */
+            left: 60px;   /* 👈 زیاتر بردوومەتە ناوەوە بۆ ئەوەی ڕێک لۆگۆکە دابپۆشێت */
+            width: 130px; /* قەبارەکەی گەورە کراوە */
             height: auto;
             z-index: 999;
             pointer-events: none;
-            filter: drop-shadow(0 0 8px rgba(0,0,0,1));
+            filter: drop-shadow(0 0 15px rgba(0,0,0,1));
         }
 
         .details { padding: 20px; border-top: 3px solid #e50914; background: #161616; }
@@ -44,7 +44,7 @@
     <header>🍿 TMX TERMINAL CINEMA</header>
 
     <div class="container">
-        <img src="Screenshot_20260410_160322.jpg" class="tmx-logo" alt="BENAR MOVIES">
+        <img src="logo.png" class="tmx-logo" alt="BENAR MOVIES">
 
         <div class="video-container">
             <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
@@ -56,7 +56,6 @@
         </div>
     </div>
 
-    <footer style="color: #333; font-size: 11px; margin-bottom: 20px;">TMX Project &copy; 2026</footer>
-
 </body>
 </html>
+ 
