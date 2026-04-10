@@ -5,72 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMX CINEMA | The Skeleton's Compass</title>
     <style>
-        body {
-            background-color: #050505;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        header {
-            width: 100%;
-            background: linear-gradient(180deg, #e50914 0%, #800000 100%);
-            padding: 25px 0;
-            text-align: center;
-            font-size: 28px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .container {
-            width: 95%;
-            max-width: 900px;
-            margin: 40px auto;
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #222;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
-            position: relative; /* بۆ ئەوەی لۆگۆکە لەسەری دابنیشێت */
-        }
+        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 24px; font-weight: bold; }
         
-        /* ئەم بەشە ڤیدیۆکە ڕێک دەخات */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
+        .container { 
+            width: 95%; 
+            max-width: 900px; 
+            margin: 30px auto; 
+            background: #111; 
+            position: relative; /* بۆ ئەوەی لۆگۆکە لە ناو ئەم چوارچێوەیە بێت */
+            border-radius: 10px;
             overflow: hidden;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* بەشی لۆگۆ (Watermark) */
-        .watermark {
-            position: absolute;
-            top: 20px; /* مەودا لە سەرەوە */
-            left: 20px; /* مەودا لە دەستە چەپ */
-            width: 80px; /* قەبارەی لۆگۆکەت لێرە بگۆڕە */
-            opacity: 0.6; /* ڕادەی ڕوونی (شفافیەت) - 0.0 بۆ 1.0 */
-            z-index: 10; /* دڵنیایی دەدات کە لۆگۆکە لەسەر ڤیدیۆکەیە */
-            pointer-events: none; /* بۆ ئەوەی ڕێگری لە کلیک نەکات لەسەر ڤیدیۆکە */
         }
 
-        .movie-details {
-            padding: 20px;
-            border-top: 3px solid #e50914;
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        /* 🚩 لۆگۆی TMX بۆ داپۆشینی Kurd Subtitle */
+        .tmx-logo {
+            position: absolute;
+            top: 10px;    /* لێرە بەرزی و نزمی ڕێکبخە */
+            right: 10px;  /* ئەگەر لۆگۆی Kurd Subtitle لە لای ڕاستە، ئەمە وەک خۆی لێ بگەڕێ */
+            /* left: 10px;  <- ئەگەر لە لای چەپ بوو، ئەوا right بسڕەوە و ئەمە بەکاربهێنە */
+            width: 100px; /* قەبارەی لۆگۆکەت */
+            z-index: 100;
+            pointer-events: none;
         }
-        h1 { margin: 0; color: #f1c40f; font-size: 24px; }
-        p { color: #888; font-size: 16px; margin: 10px 0 0; }
+
+        .details { padding: 20px; border-top: 3px solid #e50914; }
+        h1 { color: #f1c40f; font-size: 22px; }
     </style>
 </head>
 <body>
@@ -78,25 +41,17 @@
     <header>🍿 TMX TERMINAL CINEMA</header>
 
     <div class="container">
-        <img src="logo.png" class="watermark" alt="TMX Logo">
+        <img src="لێرە_لینکی_وێنەی_لۆگۆکەت_دابنێ" class="tmx-logo" alt="TMX">
 
         <div class="video-container">
-            <iframe 
-                src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" 
-                allow="autoplay; fullscreen" 
-                allowfullscreen>
-            </iframe>
+            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay"></iframe>
         </div>
 
         <div class="details">
             <h1>The Skeleton's Compass (2022) 🎬</h1>
-            <p>بەخێربێن بۆ یەکەم پەخشی تایبەت لەلایەن فەرماندەی TMX. بینەری فیلمەکە بن بە کوالێتی بەرز.</p>
+            <p>بەخێربێن بۆ پەخشی تایبەتی TMX. لۆگۆی سەر ڤیدیۆکە بە فەرمی گۆڕدرا بۆ TMX.</p>
         </div>
     </div>
-
-    <footer style="margin-bottom: 20px; color: #444; font-size: 12px;">
-        TMX Project &copy; 2026 | Created with Termux & GitHub
-    </footer>
 
 </body>
 </html>
