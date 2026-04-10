@@ -5,25 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: #e50914; padding: 15px 0; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        
-        .main-container {
-            width: 95%;
-            max-width: 800px;
-            margin: 20px auto;
-            position: relative; /* ئەمە وا دەکات لۆگۆکە لەسەر ڤیدیۆکە جێگیر بێت */
+        /* ڕێکخستنی بنەڕەتی */
+        body { 
+            background-color: #050505; 
+            color: white; 
+            font-family: sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
         }
 
+        header { 
+            width: 100%; 
+            background: #e50914; 
+            padding: 15px 0; 
+            text-align: center; 
+            font-size: 18px; 
+            font-weight: bold; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
+        }
+        
+        /* چوارچێوەی سەرەکی کە شاشەکە پڕ دەکاتەوە */
+        .main-container {
+            width: 100%; /* بۆ مۆبایل شاشەکە پڕ دەکات */
+            max-width: 900px; /* بۆ کۆمپیوتەر زیاد لە پێویست پان نابێت */
+            margin: 10px auto;
+            position: relative;
+        }
+
+        /* پلەیەرەکە کە بەقەد شاشەکە پان دەبێتەوە */
         .video-box {
             width: 100%;
             position: relative;
-            padding-bottom: 56.25%;
+            padding-bottom: 56.25%; /* 16:9 */
             height: 0;
             background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #333;
         }
 
         .video-box iframe {
@@ -35,12 +53,14 @@
             border: none;
         }
 
-        /* 🚩 لۆگۆکە لێرە بە وریایی ڕێکخراوە تا لە شاشە دەرنەچێت */
+        /* 🚩 لۆگۆکە - ئێستا لە مۆبایلیشدا بە ڕوونی دیارە */
         .tmx-logo {
             position: absolute !important;
-            top: 10px !important;    /* مەودای گونجاو لە سەرەوە */
-            left: 10px !important;   /* مەودای گونجاو لە لای چەپ */
-            width: 65px !important;  /* قەبارەیەکی مامناوەند بۆ مۆبایل */
+            top: 5px !important;
+            left: 5px !important;
+            width: 18% !important; /* قەبارەکەی بەپێی شاشەکە دەگۆڕێت */
+            max-width: 80px; /* زیاد لە پێویست گەورە نابێت */
+            min-width: 50px; /* زیاد لە پێویست بچووک نابێت */
             height: auto;
             z-index: 999999 !important;
             pointer-events: none;
@@ -49,16 +69,21 @@
 
         .details { 
             background: #111; 
-            padding: 20px; 
-            margin-top: 15px; 
+            padding: 15px; 
+            margin: 10px;
             border-radius: 8px; 
             text-align: right; 
             border-right: 4px solid #e50914;
-            width: 100%;
-            box-sizing: border-box;
         }
+
         h1 { color: #f1c40f; font-size: 18px; margin: 0; }
-        p { color: #bbb; font-size: 14px; margin-top: 10px; }
+        p { color: #bbb; font-size: 14px; margin-top: 8px; }
+
+        /* ڕێکخستن بۆ کۆمپیوتەر */
+        @media (min-width: 768px) {
+            header { font-size: 24px; }
+            .main-container { margin: 30px auto; }
+        }
     </style>
 </head>
 <body>
@@ -69,14 +94,15 @@
         <img src="logo.png" class="tmx-logo" alt="BENAR">
 
         <div class="video-box">
-            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen"></iframe>
+            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
         </div>
 
         <div class="details">
-            <h1>The Skeleton's Compass 🎬</h1>
+            <h1>The Skeleton's Compass 🎬 (2022)</h1>
             <p>بەخێربێن بۆ سینەمای BENAR MOVIES.</p>
         </div>
     </div>
 
 </body>
 </html>
+ 
