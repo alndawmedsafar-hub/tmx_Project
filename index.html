@@ -3,37 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMX CINEMA | The Skeleton's Compass</title>
+    <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
         body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 24px; font-weight: bold; }
+        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 24px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         
         .container { 
             width: 95%; 
             max-width: 900px; 
             margin: 30px auto; 
             background: #111; 
-            position: relative; /* بۆ ئەوەی لۆگۆکە لە ناو ئەم چوارچێوەیە بێت */
+            position: relative; 
             border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* 🚩 لۆگۆی TMX بۆ داپۆشینی Kurd Subtitle */
+        /* 🚩 لۆگۆی تایبەتی تۆ بۆ داپۆشینی لۆگۆی پێشوو */
         .tmx-logo {
             position: absolute;
-            top: 10px;    /* لێرە بەرزی و نزمی ڕێکبخە */
-            right: 10px;  /* ئەگەر لۆگۆی Kurd Subtitle لە لای ڕاستە، ئەمە وەک خۆی لێ بگەڕێ */
-            /* left: 10px;  <- ئەگەر لە لای چەپ بوو، ئەوا right بسڕەوە و ئەمە بەکاربهێنە */
-            width: 100px; /* قەبارەی لۆگۆکەت */
-            z-index: 100;
+            top: 5px;    /* بەرزی لە سەرەوە */
+            left: 5px;   /* شوێنەکەی لە لای چەپ */
+            width: 120px; /* قەبارەکەی لێرە گەورە بکە تا لۆگۆ کۆنەکە بە تەواوی ون دەبێت */
+            height: auto;
+            z-index: 999;
             pointer-events: none;
+            filter: drop-shadow(0 0 8px rgba(0,0,0,1));
         }
 
-        .details { padding: 20px; border-top: 3px solid #e50914; }
+        .details { padding: 20px; border-top: 3px solid #e50914; background: #161616; }
         h1 { color: #f1c40f; font-size: 22px; }
+        p { color: #bbb; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -41,18 +44,19 @@
     <header>🍿 TMX TERMINAL CINEMA</header>
 
     <div class="container">
-        <img src="لێرە_لینکی_وێنەی_لۆگۆکەت_دابنێ" class="tmx-logo" alt="TMX">
+        <img src="Screenshot_20260410_160322.jpg" class="tmx-logo" alt="BENAR MOVIES">
 
         <div class="video-container">
-            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay"></iframe>
+            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
         </div>
 
         <div class="details">
             <h1>The Skeleton's Compass (2022) 🎬</h1>
-            <p>بەخێربێن بۆ پەخشی تایبەتی TMX. لۆگۆی سەر ڤیدیۆکە بە فەرمی گۆڕدرا بۆ TMX.</p>
+            <p>بەخێربێن بۆ سینەمای BENAR MOVIES. پەخشی تایبەتی فەرماندە TMX.</p>
         </div>
     </div>
 
+    <footer style="color: #333; font-size: 11px; margin-bottom: 20px;">TMX Project &copy; 2026</footer>
+
 </body>
 </html>
- 
