@@ -3,34 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1200">
-    <title>TMX ULTIMATE UNIVERSE</title>
+    <title>TMX MASTER UNIVERSE</title>
     <style>
         :root { --neon: #00ff41; --accent: #bc13fe; --bg: #050505; }
         body { margin: 0; background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; overflow: hidden; }
-        
-        /* Desktop Style */
         .desktop { display: flex; flex-wrap: wrap; gap: 30px; padding: 40px; }
         .icon { width: 100px; text-align: center; cursor: pointer; transition: 0.3s; }
         .icon:hover { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--accent)); }
         .icon span { font-size: 50px; display: block; margin-bottom: 5px; }
-
-        /* Window Style */
-        .window { 
-            position: absolute; width: 90%; height: 85%; background: rgba(0,0,0,0.95); 
-            border: 2px solid var(--accent); border-radius: 12px; display: none; 
-            flex-direction: column; top: 5%; left: 5%; z-index: 100; box-shadow: 0 0 50px rgba(188,19,254,0.4);
-        }
+        .window { position: absolute; width: 90%; height: 85%; background: rgba(0,0,0,0.95); border: 2px solid var(--accent); border-radius: 12px; display: none; flex-direction: column; top: 5%; left: 5%; z-index: 100; box-shadow: 0 0 50px rgba(188,19,254,0.4); }
         .win-head { background: var(--accent); color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; font-weight: bold; align-items: center; }
         .win-body { flex: 1; padding: 25px; overflow-y: auto; text-align: left; direction: ltr; background: #000; }
-        .close-btn { cursor: pointer; font-size: 24px; font-weight: bold; }
-
-        /* 1500 Lines Style */
         .line { display: flex; border-bottom: 1px solid #111; padding: 4px 0; font-size: 14px; }
         .ln { color: #444; width: 50px; border-right: 1px solid #222; margin-right: 15px; flex-shrink: 0; }
         code { color: var(--neon); font-weight: bold; }
         .cmt { color: #666; margin-left: 15px; font-style: italic; }
-
-        /* Terminal Style */
         .term-container { position: fixed; bottom: 20px; width: 94%; left: 3%; z-index: 50; border: 1px solid var(--neon); border-radius: 8px; overflow: hidden; }
         #output { height: 180px; background: #000; padding: 15px; overflow-y: auto; border-bottom: 1px solid #222; font-size: 15px; }
         .input-area { background: #111; padding: 12px; display: flex; align-items: center; }
@@ -46,15 +33,12 @@
     </div>
 
     <div id="main-win" class="window">
-        <div class="win-head">
-            <span id="win-title">SYSTEM_EXPLORER</span>
-            <span class="close-btn" onclick="closeWin()">✕</span>
-        </div>
+        <div class="win-head"><span id="win-title">SYSTEM_EXPLORER</span><span style="cursor:pointer" onclick="closeWin()">✕</span></div>
         <div class="win-body" id="content-area"></div>
     </div>
 
     <div class="term-container">
-        <div id="output">Welcome Commander TMX to Terminal 1.0... Type 'help' to see commands.</div>
+        <div id="output">Welcome TMX... Type 'help' to start.</div>
         <div class="input-area">
             <span style="color:var(--neon)">tmx@honor-x9c:~$</span>
             <input type="text" id="cmd-in" onkeypress="handleCommand(event)" autofocus>
@@ -64,55 +48,41 @@
     <script>
         const PASS = "2010aa";
 
+        // لیستی فەرمانە ڕاستەقینەکان بۆ ئەوەی هەموی وەک یەک نەبێت
+        const realCore = ["apt update", "pkg install python", "termux-setup-storage", "pkg install git", "pkg install wget", "pkg install curl", "pkg install php", "pkg install nano", "pkg install ruby", "pkg install clang"];
+        const realHack = ["nmap -v", "sqlmap --wizard", "msfconsole", "pkg install hydra", "pkg install tshark", "git clone https://github.com/sqlmapproject/sqlmap", "pkg install nikto", "bettercap -iface wlan0"];
+
         function openWin(mode) {
             const win = document.getElementById('main-win');
-            const title = document.getElementById('win-title');
             const body = document.getElementById('content-area');
-            
             win.style.display = 'flex';
-            title.innerText = "TMX " + mode.toUpperCase() + " REPOSITORY (1500 LINES)";
+            document.getElementById('win-title').innerText = "TMX " + mode.toUpperCase() + " REPOSITORY";
             
-            // دروستکردنی ١٥٠٠ دێڕ بە یەک چرکە
             let html = "";
+            let dataList = (mode === 'core') ? realCore : (mode === 'hack') ? realHack : ["tmx --admin", "proxychains4", "openssl genrsa"];
+
             for(let i=1; i<=1500; i++) {
-                let cmd = (mode === 'core') ? `pkg install tmx-core-v${i}` : (mode === 'hack') ? `git clone tmx/tool-${i}` : `tmx-vip-execute --id-${i}`;
-                let desc = (mode === 'core') ? "سیستەم" : (mode === 'hack') ? "هاکینگ" : "سکرێپتی نهێنی";
-                html += `<div class="line"><span class="ln">${i}</span><code>${cmd}</code><span class="cmt">// فەرمانی ${desc} ئاستی ${i}</span></div>`;
+                // ئەگەر لەناو لیستە ڕاستەقینەکەدا هەبوو بەکاری بهێنە، ئەگەر نا دانەی ئۆتۆماتیکی دروست بکە
+                let cmdLine = (i <= dataList.length) ? dataList[i-1] : (mode === 'core' ? `pkg install lib-module-0${i}` : `git clone tmx/exploit-v${i}`);
+                let descLine = (mode === 'core') ? "سیستەمی تێرمۆکس" : (mode === 'hack') ? "ئامرازی هاکینگ" : "سکرێپتی ڤی ئای پی";
+                
+                html += `<div class="line"><span class="ln">${i}</span><code>${cmdLine}</code><span class="cmt">// ${descLine} - دێڕی ${i}</span></div>`;
             }
             body.innerHTML = html;
         }
 
         function closeWin() { document.getElementById('main-win').style.display = 'none'; }
+        function checkOffice() { if(prompt("ACCESS KEY:") === PASS) openWin('office'); else alert("WRONG KEY!"); }
 
-        function checkOffice() {
-            let key = prompt("TMX MASTER ACCESS KEY:");
-            if(key === PASS) { openWin('office'); }
-            else { alert("ACCESS DENIED! Invalid Key."); }
-        }
-
-        // مێشکی تێرمیناڵەکە
         function handleCommand(e) {
             if(e.key === "Enter") {
                 const out = document.getElementById('output');
                 const inp = document.getElementById('cmd-in');
-                const val = inp.value.toLowerCase().trim();
-                
-                out.innerHTML += `<br><span style="color:#aaa;">> ${val}</span>`;
-                
-                if(val === "help") {
-                    out.innerHTML += "<br>Commands: <span style='color:yellow'>nmap, whoami, clear, pkg install, tmx-status</span>";
-                } else if(val === "whoami") {
-                    out.innerHTML += "<br>Commander_TMX_Official_HonorX9c";
-                } else if(val === "clear") {
-                    out.innerHTML = "Terminal screen cleared.";
-                } else if(val === "tmx-status") {
-                    out.innerHTML += "<br>CPU: Ultra | RAM: Stable | Target: Secure";
-                } else if(val.startsWith("pkg install")) {
-                    out.innerHTML += `<br>Downloading package... [##########] 100% Complete.`;
-                } else {
-                    out.innerHTML += `<br><span style="color:red;">Error: Command '${val}' not recognized.</span>`;
-                }
-                
+                out.innerHTML += `<br>> ${inp.value}`;
+                if(inp.value.toLowerCase() === "help") out.innerHTML += "<br>Try: nmap, whoami, clear";
+                else if(inp.value.toLowerCase() === "whoami") out.innerHTML += "<br>TMX_Commander_HonorX9c";
+                else if(inp.value.toLowerCase() === "clear") out.innerHTML = "Cleared.";
+                else out.innerHTML += `<br>Processing command... Done.`;
                 inp.value = "";
                 out.scrollTop = out.scrollHeight;
             }
