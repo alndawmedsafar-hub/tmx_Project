@@ -3,148 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEAM TMX | THE NEW WORLD</title>
+    <title>TMX QUANTUM | THE MULTIVERSE</title>
     <style>
-        :root { --neon: #00ff41; --bg: #020202; --glass: rgba(0, 20, 0, 0.9); }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; overflow-x: hidden; }
-
-        /* Background Canvas */
-        #matrix-bg { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.2; }
-
-        .world-wrapper { display: flex; flex-direction: column; align-items: center; padding: 20px; min-height: 200vh; background: radial-gradient(circle, rgba(0,50,0,0.2) 0%, transparent 80%); }
-
-        .header-box { text-align: center; border: 2px solid var(--neon); padding: 40px; border-radius: 0px; background: var(--glass); box-shadow: 0 0 30px rgba(0, 255, 65, 0.4); position: relative; margin-bottom: 50px; width: 90%; max-width: 1000px; }
-        .header-box h1 { font-size: 60px; margin: 0; letter-spacing: 15px; animation: glitch 2s infinite; }
+        :root { --neon: #00ff41; --dark: #000; --glass: rgba(0, 20, 0, 0.8); }
+        body, html { margin: 0; padding: 0; background: var(--dark); color: var(--neon); font-family: 'Courier New', monospace; overflow-x: hidden; scroll-behavior: smooth; }
         
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 95%; max-width: 1100px; margin-bottom: 50px; }
-        .info-card { background: var(--glass); border: 1px solid var(--neon); padding: 20px; backdrop-filter: blur(15px); transition: 0.5s; }
-        .info-card:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--neon); }
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.2; }
 
-        /* REAL TERMUX EMULATOR */
-        .termux-container { width: 95%; max-width: 1100px; background: #000; border: 3px solid #333; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 80px rgba(0,0,0,1); }
-        .termux-header { background: #333; padding: 10px; display: flex; justify-content: space-between; font-size: 12px; color: #fff; }
-        .termux-body { padding: 15px; height: 500px; overflow-y: auto; display: flex; flex-direction: column; text-align: left; direction: ltr; }
-        .output-line { margin: 2px 0; line-height: 1.4; word-break: break-all; }
-        .input-area { display: flex; align-items: center; margin-top: 10px; }
-        .prompt { color: var(--neon); font-weight: bold; margin-right: 10px; }
-        #cmdInput { background: transparent; border: none; color: #fff; outline: none; width: 100%; font-family: 'Courier New', monospace; font-size: 16px; }
+        /* OS Interface */
+        .desktop { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        
+        .top-bar { width: 100%; display: flex; justify-content: space-between; padding: 10px; background: rgba(0,255,65,0.1); border-bottom: 1px solid var(--neon); margin-bottom: 20px; }
 
-        @keyframes glitch {
-            0% { text-shadow: 2px 2px #ff0000; }
-            25% { text-shadow: -2px -2px #0000ff; }
-            50% { text-shadow: 2px -2px #00ff00; }
-            100% { text-shadow: -2px 2px #ff00ff; }
-        }
+        .app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; width: 100%; max-width: 600px; margin-top: 30px; }
+        .app-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
+        .app-icon:hover { transform: scale(1.1); text-shadow: 0 0 10px var(--neon); }
+        .icon-box { width: 60px; height: 60px; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 30px; background: var(--glass); margin-bottom: 5px; }
 
-        .scroll-text { margin-top: 100px; font-size: 20px; color: #444; text-transform: uppercase; letter-spacing: 10px; }
+        /* Virtual Terminal */
+        .window { width: 95%; max-width: 1000px; background: #000; border: 2px solid var(--neon); border-radius: 8px; margin-top: 40px; box-shadow: 0 0 50px rgba(0,255,65,0.2); }
+        .win-head { background: #111; padding: 8px; border-bottom: 1px solid var(--neon); display: flex; justify-content: space-between; font-size: 12px; }
+        .win-body { height: 400px; padding: 15px; overflow-y: auto; text-align: left; direction: ltr; }
+
+        /* Sections (The 20 Pages) */
+        .content-area { width: 90%; max-width: 1000px; margin-top: 50px; }
+        .page-section { display: none; background: var(--glass); border: 1px solid var(--neon); padding: 30px; margin-bottom: 30px; border-radius: 15px; animation: fadeIn 0.5s; }
+        .active-section { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        input { background: transparent; border: none; color: #fff; outline: none; width: 80%; font-family: monospace; font-size: 16px; }
+        .btn-nav { background: var(--neon); color: #000; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px; }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix-bg"></canvas>
+<canvas id="matrix-canvas"></canvas>
 
-    <div class="world-wrapper">
-        <div class="header-box">
-            <h1>TEAM TMX</h1>
-            <p style="letter-spacing: 5px;">WELCOME TO THE OTHER SIDE OF REALITY</p>
-            <div id="clock" style="font-size: 25px; margin-top: 20px;">00:00:00</div>
-        </div>
-
-        <div class="info-grid">
-            <div class="info-card"><h3>SYSTEM</h3><p>MODEL: HONOR X9c<br>STATUS: UNSTOPPABLE</p></div>
-            <div class="info-card"><h3>OWNER</h3><p>IDENT: BINER<br>RANK: CREATOR</p></div>
-            <div class="info-card"><h3>PROTOCOL</h3><p>TYPE: TMX_ENCRYPTION<br>LEVEL: 99</p></div>
-        </div>
-
-        <div class="termux-container">
-            <div class="termux-header">
-                <span>Termux (TMX-Virtual-Session)</span>
-                <span>[ - ] [ □ ] [ ✕ ]</span>
-            </div>
-            <div class="termux-body" id="terminalBody">
-                <div class="output-line" style="color: #79c0ff;">Welcome to Team TMX Virtual Terminal.</div>
-                <div class="output-line" style="color: #888;">Type 'help' to see available commands.</div>
-            </div>
-            <div class="input-area" style="padding: 10px; background: #050505; border-top: 1px solid #222;">
-                <span class="prompt">biner@tmx:~$</span>
-                <input type="text" id="cmdInput" autofocus spellcheck="false">
-            </div>
-        </div>
-
-        <div class="scroll-text">Keep Digging Deeper</div>
-        
-        <div style="height: 500px;"></div> <div class="header-box" style="border-style: dashed;">
-            <h2>THE JOURNEY ENDS WHERE IT BEGINS</h2>
-            <p>تۆ ئێستا لە جیهانێکی تری، فەرماندە.</p>
-        </div>
+<div class="desktop">
+    <div class="top-bar">
+        <span>TMX QUANTUM OS v4.0</span>
+        <span id="live-clock">00:00:00</span>
+        <span>USER: BINER</span>
     </div>
 
-    <script>
-        // Matrix Effect
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.width = window.innerWidth, ctx = canvas.height = window.innerHeight; // Fixed context in logic below
-        const c = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "日HｱAﾆK01TMXBINERｦｲｸ";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+    <h1 style="text-align: center; letter-spacing: 10px; font-size: 40px;">QUANTUM WORLD</h1>
 
-        function drawMatrix() {
-            c.fillStyle = "rgba(0, 0, 0, 0.05)"; c.fillRect(0, 0, canvas.width, canvas.height);
-            c.fillStyle = "#0f0"; c.font = fontSize + "px monospace";
-            drops.forEach((y, i) => {
-                const text = letters[Math.floor(Math.random() * letters.length)];
-                c.fillText(text, i * fontSize, y * fontSize);
-                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }
-        setInterval(drawMatrix, 35);
+    <div class="app-grid">
+        <div class="app-icon" onclick="showPage('home')"><div class="icon-box">🏠</div><span>Home</span></div>
+        <div class="app-icon" onclick="showPage('termux')"><div class="icon-box">⌨️</div><span>Termux</span></div>
+        <div class="app-icon" onclick="showPage('scripts')"><div class="icon-box">📜</div><span>Scripts</span></div>
+        <div class="app-icon" onclick="showPage('hacking')"><div class="icon-box">🛡️</div><span>Hacking</span></div>
+        <div class="app-icon" onclick="showPage('python')"><div class="icon-box">🐍</div><span>Python</span></div>
+        <div class="app-icon" onclick="showPage('linux')"><div class="icon-box">🐧</div><span>Linux</span></div>
+        <div class="app-icon" onclick="showPage('tools')"><div class="icon-box">🛠️</div><span>Tools</span></div>
+        <div class="app-icon" onclick="showPage('tiktok')"><div class="icon-box">📱</div><span>TikTok</span></div>
+    </div>
 
-        // Clock
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+    <div class="content-area">
+        <div id="home" class="page-section active-section">
+            <h2>بەخێربێیت بۆ نێو دونیای کوانتەم</h2>
+            <p>ئەمە تەنها سایتێک نییە، ئەمە پانتاییەکی بێ کۆتایە بۆ فێربوونی تەکنەلۆژیا. لە ئای کۆنەکانی سەرەوە بەشێک هەڵبژێرە.</p>
+        </div>
 
-        // Terminal Logic
-        const input = document.getElementById('cmdInput');
-        const body = document.getElementById('terminalBody');
+        <div id="termux" class="page-section">
+            <h2>فێرکاری تێرمۆکس</h2>
+            <p>تێرمۆکس دەروازەی تۆیە بۆ ناو لینوکس لە مۆبایلدا.</p>
+            <div style="background:#000; padding:10px;">$ pkg update && pkg upgrade</div>
+        </div>
 
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const val = input.value.toLowerCase().trim();
-                addLine(`<span class="prompt">biner@tmx:~$</span> ${val}`);
-                processCmd(val);
-                input.value = '';
-                body.scrollTop = body.scrollHeight;
-            }
+        <div id="hacking" class="page-section">
+            <h2>پاراستن و هاککردن</h2>
+            <p>لێرەدا فێری پاراستنی ئەکاونت و دۆزینەوەی کێشە ئەمنییەکان دەبیت.</p>
+        </div>
+        
+        </div>
+
+    <div class="window">
+        <div class="win-head"><span>TERMINAL EMULATOR</span><span>● ● ●</span></div>
+        <div class="win-body" id="termBody">
+            <div>Welcome Commander Biner. Type 'help' for commands.</div>
+        </div>
+        <div style="padding:10px; background:#050505; display:flex;">
+            <span style="margin-right:10px;">tmx@quantum:~$</span>
+            <input type="text" id="termInput" autofocus>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Matrix rain
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const chars = "0101TEAMTMXBINERQUANTUM";
+    const drops = Array(Math.floor(canvas.width/18)).fill(1);
+    function draw() {
+        ctx.fillStyle = "rgba(0,0,0,0.05)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "#0f0"; ctx.font = "15px monospace";
+        drops.forEach((y, i) => {
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*18, y*18);
+            if(y*18 > canvas.height && Math.random() > 0.98) drops[i] = 0;
+            drops[i]++;
         });
+    }
+    setInterval(draw, 35);
 
-        function addLine(text, color = "#fff") {
-            const div = document.createElement('div');
-            div.className = 'output-line';
-            div.style.color = color;
-            div.innerHTML = text;
-            body.appendChild(div);
-        }
+    // Clock
+    setInterval(() => { document.getElementById('live-clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-        function processCmd(cmd) {
-            if (cmd === 'help') {
-                addLine("Available: help, clear, status, tmx, whoami, hack", "#d2a8ff");
-            } else if (cmd === 'clear') {
-                body.innerHTML = '';
-            } else if (cmd === 'status') {
-                addLine("All systems functional. Honor X9c Battery: " + document.querySelector('span').innerText || "52%", "#00ff41");
-            } else if (cmd === 'tmx') {
-                addLine("TEAM TMX: The largest Kurdish programming community.", "#79c0ff");
-            } else if (cmd === 'hack') {
-                addLine("Bypassing firewalls...", "#ff4141");
-                setTimeout(() => addLine("Access Granted to the World.", "#00ff41"), 1000);
-            } else if (cmd === 'whoami') {
-                addLine("You are Biner, the commander of Team TMX.", "#ffcc00");
-            } else if (cmd !== '') {
-                addLine(`Command not found: ${cmd}`, "#ff4141");
+    // Page Navigation
+    function showPage(id) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+        const target = document.getElementById(id);
+        if(target) target.classList.add('active-section');
+        else alert("ئەم بەشە لە ژێر پەرەپێداندایە (Coming Soon)");
+    }
+
+    // Terminal Logic
+    const tInput = document.getElementById('termInput');
+    const tBody = document.getElementById('termBody');
+    tInput.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') {
+            const cmd = tInput.value.toLowerCase();
+            tBody.innerHTML += `<div><span style="color:#0f0">tmx@quantum:~$</span> ${cmd}</div>`;
+            if(cmd === 'help') tBody.innerHTML += "<div>Commands: clear, help, whoami, start hack, status</div>";
+            else if(cmd === 'clear') tBody.innerHTML = '';
+            else if(cmd === 'whoami') tBody.innerHTML += "<div>YOU ARE THE CREATOR: BINER</div>";
+            else if(cmd === 'start hack') {
+                let i = 0;
+                const intv = setInterval(() => {
+                    tBody.innerHTML += "<div>[SYSTEM] Bypassing Layer " + i + "...</div>";
+                    tBody.scrollTop = tBody.scrollHeight;
+                    i++; if(i > 5) clearInterval(intv);
+                }, 500);
             }
+            tInput.value = '';
+            tBody.scrollTop = tBody.scrollHeight;
         }
-    </script>
+    });
+</script>
 </body>
 </html>
