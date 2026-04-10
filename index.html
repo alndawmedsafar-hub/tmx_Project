@@ -5,28 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMX CINEMA | BENAR MOVIES</title>
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 24px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        body { background-color: #050505; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: #e50914; padding: 20px 0; text-align: center; font-size: 22px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         
-        .container { 
-            width: 95%; 
-            max-width: 900px; 
-            margin: 30px auto; 
-            background: #111; 
-            position: relative; 
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        .main-container {
+            width: 95%;
+            max-width: 900px;
+            margin: 20px auto;
+            position: relative; /* ئەمە زۆر گرنگە بۆ لۆگۆکە */
         }
 
-        .video-wrapper {
-            position: relative;
+        .video-box {
             width: 100%;
+            position: relative;
             padding-bottom: 56.25%;
             height: 0;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #222;
         }
 
-        .video-wrapper iframe {
+        .video-box iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -35,37 +35,44 @@
             border: none;
         }
 
-        /* 🚩 لۆگۆ بچووک کراوەتەوە و ڕێکخراوە بۆ سەر لۆگۆکەی تر */
-        .tmx-logo {
+        /* 🚩 لۆگۆکە بە شێوازێکی جیاواز جێگیر کراوە */
+        .overlay-logo {
             position: absolute !important;
-            top: 8px !important;    /* مەودا لە سەرەوە */
-            left: 8px !important;   /* ڕێک دەچێتە سووچی لای چەپ */
-            width: 75px !important;  /* 👈 قەبارەکەم زۆر بچووک کردەوە بۆ ئەوەی ڕێک بێت */
+            top: 10px !important;
+            left: 10px !important;
+            width: 70px !important; /* 👈 قەبارەی بچووک بۆ داپۆشینی ورد */
             height: auto;
-            z-index: 2147483647 !important;
+            z-index: 999999 !important;
             pointer-events: none;
             filter: drop-shadow(0 0 5px rgba(0,0,0,1));
         }
 
-        .details { padding: 25px; border-top: 3px solid #e50914; background: #161616; text-align: right; }
-        h1 { color: #f1c40f; font-size: 20px; margin-bottom: 10px; }
-        p { color: #bbb; font-size: 14px; line-height: 1.6; }
+        .details { 
+            background: #111; 
+            padding: 20px; 
+            margin-top: 15px; 
+            border-radius: 10px; 
+            border-right: 4px solid #e50914;
+            text-align: right;
+        }
+        h1 { color: #f1c40f; font-size: 18px; margin: 0; }
+        p { color: #888; font-size: 14px; margin-top: 8px; }
     </style>
 </head>
 <body>
 
     <header>🍿 TMX TERMINAL CINEMA</header>
 
-    <div class="container">
-        <img src="benar%20logo.png" class="tmx-logo" alt="BENAR MOVIES">
+    <div class="main-container">
+        <img src="benar%20logo.png" class="overlay-logo" alt="BENAR MOVIES">
 
-        <div class="video-wrapper">
-            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <div class="video-box">
+            <iframe src="https://drive.google.com/file/d/1Gku45kUBjEAUtOiy5h5FGQvR1uSokUz3/preview" allow="autoplay; fullscreen"></iframe>
         </div>
 
         <div class="details">
-            <h1>The Skeleton's Compass🎬 (2022)</h1>
-            <p>بەخێربێن بۆ سینەمای BENAR MOVIES.</p>
+            <h1>The Skeleton's Compass 🎬</h1>
+            <p>بەخێربێن بۆ سینەمای BENAR MOVIES. لۆگۆکە بچووک کراوەتەوە و ڕێکخراوە.</p>
         </div>
     </div>
 
