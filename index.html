@@ -3,45 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team TMX | Scripts Hub</title>
+    <title>TEAM TMX | Ultimate Office</title>
     <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-width: 600px; width: 100%; }
-        h1 { color: #238636; margin-bottom: 5px; font-size: 35px; text-transform: uppercase; }
-        .tagline { color: #8b949e; margin-bottom: 25px; font-size: 16px; }
-        .section-title { color: #58a6ff; text-align: right; width: 100%; margin-top: 20px; border-right: 4px solid #58a6ff; padding-right: 10px; }
-        .script-box { background-color: #010409; border-radius: 8px; padding: 15px; text-align: left; font-family: monospace; margin: 15px 0; border: 1px solid #30363d; position: relative; }
-        .script-header { color: #79c0ff; font-size: 12px; margin-bottom: 10px; display: block; }
-        code { color: #d2a8ff; word-break: break-all; }
-        .btn { display: inline-block; background-color: #238636; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 10px 5px; transition: 0.3s; font-size: 14px; }
-        .btn:hover { background-color: #2ea043; transform: translateY(-2px); }
-        .copy-btn { position: absolute; left: 10px; top: 10px; background: #30363d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 10px; }
+        :root { --primary: #00ff41; --bg: #050505; --glass: rgba(20, 20, 20, 0.85); --border: rgba(0, 255, 65, 0.3); }
+        
+        body { background-color: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; overflow-x: hidden; }
+
+        /* 1. Animated Matrix Background */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.15; }
+
+        .container { max-width: 900px; margin: 20px auto; padding: 15px; }
+
+        /* 2. Glassmorphism Design */
+        .glass-panel { 
+            background: var(--glass); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid var(--border); 
+            border-radius: 20px; 
+            padding: 25px; 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .header { text-align: center; }
+        h1 { font-size: 45px; color: var(--primary); text-shadow: 0 0 15px var(--primary); margin: 0; letter-spacing: 4px; }
+        
+        /* 3. Live Clock */
+        .status-bar { font-family: monospace; font-size: 14px; margin: 10px 0; color: #aaa; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        #clock { color: var(--primary); font-weight: bold; }
+
+        /* 4. Responsive Sections & Office */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+        
+        .card { background: rgba(0,0,0,0.5); border: 1px solid #333; padding: 15px; border-radius: 12px; transition: 0.3s; }
+        .card:hover { border-color: var(--primary); }
+        .card h3 { color: var(--primary); margin-top: 0; border-right: 3px solid var(--primary); padding-right: 10px; }
+
+        textarea { 
+            width: 100%; height: 150px; background: #000; color: #d2a8ff; 
+            border: 1px solid #444; border-radius: 8px; padding: 10px; 
+            font-family: monospace; margin-top: 10px; box-sizing: border-box;
+        }
+
+        .terminal { 
+            background: #000; border: 1px solid #222; border-radius: 8px; 
+            padding: 12px; height: 100px; overflow-y: auto; 
+            font-family: monospace; font-size: 13px; margin-top: 10px; text-align: left; direction: ltr;
+        }
+
+        .btn { 
+            background: transparent; border: 1px solid var(--primary); color: var(--primary); 
+            padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; 
+            transition: 0.3s; margin-top: 10px; width: 100%;
+        }
+        .btn:hover { background: var(--primary); color: black; box-shadow: 0 0 10px var(--primary); }
+
+        .code-box { background: #111; padding: 8px; border-radius: 5px; font-size: 12px; color: #0f0; margin: 5px 0; }
     </style>
 </head>
 <body>
 
+    <canvas id="bg-canvas"></canvas>
+
     <div class="container">
-        <h1>TEAM TMX</h1>
-        <p class="tagline">پلاتفۆرمی فەرمی بڵاوکردنەوەی سکرێپت و پڕۆژەکانی تێرمۆکس</p>
-        
-        <h3 class="section-title">سکرێپتە بەردەستەکان</h3>
-        
-        <div class="script-box">
-            <span class="script-header"># Update & Upgrade Script</span>
-            <code>pkg update && pkg upgrade -y && pkg install python git -y</code>
+        <div class="glass-panel header">
+            <h1>TEAM TMX</h1>
+            <div class="status-bar">
+                [ SYSTEM: ACTIVE ] | [ OWNER: BINER ] | <span id="clock">00:00:00</span>
+            </div>
+            <p style="font-size: 14px; color: #ccc;">ئۆفیسی فەرمی و پلاتفۆرمی سکرێپتەکانی تیمی TMX</p>
         </div>
 
-        <div class="script-box">
-            <span class="script-header"># Team TMX Basic Tools</span>
-            <code>git clone https://github.com/alndawmedsafar-hub/tmx_Project</code>
+        <div class="grid">
+            <div class="glass-panel" style="grid-column: 1 / -1;">
+                <h3 style="color: var(--primary); margin-top: 0;">💻 ئۆفیسی کارکردن (IDE)</h3>
+                <textarea id="codeInput" placeholder="# کۆدەکەت لێرە بنووسە فەرماندە..."></textarea>
+                <button class="btn" onclick="runCode()">ڕاکێشانی کۆد (RUN)</button>
+                <div class="terminal" id="output">> بێنەر بەخێرهاتی بۆ تێرمیناڵی TMX...</div>
+            </div>
+
+            <div class="glass-panel card">
+                <h3>📜 سکرێپتەکان</h3>
+                <p style="font-size: 12px;">بۆ ئامادەکردنی تێرمۆکس:</p>
+                <div class="code-box">pkg update && pkg upgrade -y</div>
+                <div class="code-box">pkg install python git -y</div>
+            </div>
+
+            <div class="glass-panel card">
+                <h3>🔗 بەستەرەکان</h3>
+                <p style="font-size: 13px;">بۆ بینینی فێرکارییەکان سەردانی تیکتۆک بکەن:</p>
+                <a href="https://www.tiktok.com/@alndawmedsafar_hub" target="_blank" class="btn" style="text-decoration: none; display: block; text-align: center;">Tiktok Channel</a>
+            </div>
         </div>
 
-        <h3 class="section-title">بەستەرەکان</h3>
-        <a href="https://www.tiktok.com/@alndawmedsafar_hub" class="btn">چەناڵی تیکتۆک</a>
-        <a href="#" class="btn" style="background-color: #8b949e;">Scripts زیاتر</a>
+        <footer style="text-align: center; color: #555; font-size: 11px; margin-top: 20px;">
+            TEAM TMX v3.0 | 2026 | CREATED BY BINER
+        </footer>
     </div>
 
-    <p style="color: #484f58; margin-top: 20px; font-size: 12px;">© 2026 TEAM TMX | Developed by Biner</p>
+    <script>
+        // 1. Matrix Background Logic
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const letters = "010101TEAMTMXBINER";
+        const drops = Array(Math.floor(canvas.width/16)).fill(1);
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0"; ctx.font = "15px monospace";
+            drops.forEach((y, i) => {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * 16, y * 16);
+                if (y * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(drawMatrix, 40);
 
+        // 2. Live Clock Logic
+        function updateClock() {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+
+        // 3. Office Run Logic
+        function runCode() {
+            const output = document.getElementById('output');
+            output.innerHTML += `<br><span style="color:#0f0">>></span> خەریکی جێگیرکردنی کۆدەکەین...`;
+            setTimeout(() => {
+                output.innerHTML += `<br><span style="color:#79c0ff">>></span> کۆدەکە بە سەرکەوتوویی لە سێرڤەری TMX چالاک کرا!`;
+                output.scrollTop = output.scrollHeight;
+            }, 800);
+        }
+    </script>
 </body>
 </html>
