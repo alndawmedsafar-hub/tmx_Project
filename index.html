@@ -1,28 +1,75 @@
 <!DOCTYPE html>
-<html lang="ku">
+<html lang="ku" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMX KURDISH | یاری دۆمینە و کۆنکان</title>
+    <title>TMX KURDISH | یاری دۆمینە</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <style>
-        body { background-color: #0c0c0c; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; margin: 0; padding: 0; }
-        .header { background-color: #ff0000; padding: 20px; font-size: 24px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .logo-area { padding: 50px; color: gold; font-size: 40px; text-shadow: 2px 2px 10px gold; }
-        .btn { background-color: #1db954; color: white; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin-top: 30px; transition: 0.3s; }
-        .btn:hover { background-color: #1ed760; transform: scale(1.1); }
-        .info { margin-top: 50px; color: #888; }
+        body { background-color: #0c0c0c; color: white; font-family: sans-serif; text-align: center; margin: 0; overflow-x: hidden; }
+        .header { background-color: #ff0000; padding: 15px; font-size: 22px; font-weight: bold; }
+        .brand { color: #1db954; font-size: 30px; margin: 20px 0; text-shadow: 0 0 10px #1db954; }
+        
+        /* مێزی یارییەکە */
+        #game-table { background: #1a1a1a; border: 3px solid #333; border-radius: 15px; margin: 20px auto; width: 90%; max-width: 400px; padding: 20px; display: none; }
+        .stone { display: inline-block; background: white; color: black; padding: 10px; border-radius: 5px; font-weight: bold; font-size: 20px; margin: 5px; border: 2px solid gold; }
+        
+        .btn { background-color: #1db954; color: white; padding: 15px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; cursor: pointer; border: none; font-size: 18px; transition: 0.3s; }
+        .btn:hover { background-color: #1ed760; transform: scale(1.05); }
+        .score { font-size: 20px; margin: 15px; color: gold; }
     </style>
 </head>
 <body>
+
     <div class="header">🎬 TMX KURDISH ENTERTAINMENT</div>
-    <div class="logo-area">🏆 یاری دۆمینەی کوردى</div>
-    <p>ئەم پڕۆژەیە لەلایەن گەنجێکی کوردەوە بۆ تێرموکس و وێب دروستکراوە</p>
     
-    <a href="https://github.com/alndawmedsafar-hub/tmx_Project" class="btn">📥 ئێستا یارییەکە دابەزێنە</a>
-    
-    <div class="info">
-        <p>بۆ کارپێکردن لە تێرموکس:</p>
-        <code>python tmx_game.py</code>
+    <div id="main-menu">
+        <h1 class="brand">TMX KURDISH</h1>
+        <p style="padding: 0 20px;">ئەم پڕۆژەیە بە تەواوی لەلایەن <b style="color:#1db954">TMX KURDISH</b> گەشەی پێدراوە</p>
+        <br>
+        <button class="btn" onclick="startGame()">🎯 دەستپێکردنی یاری</button>
+        <p style="color: #666; font-size: 12px; margin-top: 20px;">بۆ دابەزاندن وەک ئەپ: لە براوسەرەکە Add to Home Screen بکە</p>
     </div>
+
+    <div id="game-table">
+        <div class="score">تۆ: <span id="p-score">0</span> | بۆت: <span id="b-score">0</span></div>
+        <div id="stones-area">
+            <p>بەردی تۆ:</p>
+            <div id="player-stone" class="stone">? | ?</div>
+            <p>بەردی بۆت:</p>
+            <div id="bot-stone" class="stone">? | ?</div>
+        </div>
+        <br>
+        <button class="btn" style="padding: 10px 20px; font-size: 14px;" onclick="nextRound()">ڕاکێشانی بەرد</button>
+    </div>
+
+    <script>
+        let pScore = 0;
+        let bScore = 0;
+
+        function startGame() {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('game-table').style.display = 'block';
+        }
+
+        function nextRound() {
+            let p1 = Math.floor(Math.random() * 7);
+            let p2 = Math.floor(Math.random() * 7);
+            let b1 = Math.floor(Math.random() * 7);
+            let b2 = Math.floor(Math.random() * 7);
+
+            document.getElementById('player-stone').innerText = `${p1} | ${p2}`;
+            document.getElementById('bot-stone').innerText = `${b1} | ${b2}`;
+
+            if ((p1 + p2) >= (b1 + b2)) {
+                pScore += 10;
+                document.getElementById('p-score').innerText = pScore;
+            } else {
+                bScore += 10;
+                document.getElementById('b-score').innerText = bScore;
+            }
+        }
+    </script>
 </body>
 </html>
