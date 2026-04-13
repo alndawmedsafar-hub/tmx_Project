@@ -3,73 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMX KURDISH | یاری دۆمینە</title>
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>TMX KURDISH | Online Game</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
     <style>
-        body { background-color: #0c0c0c; color: white; font-family: sans-serif; text-align: center; margin: 0; overflow-x: hidden; }
-        .header { background-color: #ff0000; padding: 15px; font-size: 22px; font-weight: bold; }
-        .brand { color: #1db954; font-size: 30px; margin: 20px 0; text-shadow: 0 0 10px #1db954; }
-        
-        /* مێزی یارییەکە */
-        #game-table { background: #1a1a1a; border: 3px solid #333; border-radius: 15px; margin: 20px auto; width: 90%; max-width: 400px; padding: 20px; display: none; }
-        .stone { display: inline-block; background: white; color: black; padding: 10px; border-radius: 5px; font-weight: bold; font-size: 20px; margin: 5px; border: 2px solid gold; }
-        
-        .btn { background-color: #1db954; color: white; padding: 15px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; cursor: pointer; border: none; font-size: 18px; transition: 0.3s; }
-        .btn:hover { background-color: #1ed760; transform: scale(1.05); }
-        .score { font-size: 20px; margin: 15px; color: gold; }
+        body { background-color: #0c0c0c; color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        .header { background-color: #ff0000; padding: 15px; font-size: 20px; font-weight: bold; }
+        .brand { color: #1db954; font-size: 35px; text-shadow: 0 0 10px #1db954; margin: 20px 0; }
+        .btn { background-color: #1db954; color: white; padding: 15px 30px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; margin: 10px; }
+        #game-area, #leaderboard-area { display: none; padding: 20px; }
+        .player-entry { background: #222; margin: 5px; padding: 10px; border-radius: 10px; border-right: 5px solid gold; }
     </style>
 </head>
 <body>
 
     <div class="header">🎬 TMX KURDISH ENTERTAINMENT</div>
     
-    <div id="main-menu">
+    <div id="login-area">
         <h1 class="brand">TMX KURDISH</h1>
-        <p style="padding: 0 20px;">ئەم پڕۆژەیە بە تەواوی لەلایەن <b style="color:#1db954">TMX KURDISH</b> گەشەی پێدراوە</p>
-        <br>
-        <button class="btn" onclick="startGame()">🎯 دەستپێکردنی یاری</button>
-        <p style="color: #666; font-size: 12px; margin-top: 20px;">بۆ دابەزاندن وەک ئەپ: لە براوسەرەکە Add to Home Screen بکە</p>
+        <input type="text" id="player-name" placeholder="ناوەکەت بنووسە..." style="padding: 10px; border-radius: 5px; border: none; width: 200px;"><br>
+        <button class="btn" onclick="enterGame()">چوونە ناو یاری</button>
     </div>
 
-    <div id="game-table">
-        <div class="score">تۆ: <span id="p-score">0</span> | بۆت: <span id="b-score">0</span></div>
-        <div id="stones-area">
-            <p>بەردی تۆ:</p>
-            <div id="player-stone" class="stone">? | ?</div>
-            <p>بەردی بۆت:</p>
-            <div id="bot-stone" class="stone">? | ?</div>
-        </div>
-        <br>
-        <button class="btn" style="padding: 10px 20px; font-size: 14px;" onclick="nextRound()">ڕاکێشانی بەرد</button>
+    <div id="game-area">
+        <h2 id="welcome-msg"></h2>
+        <div style="font-size: 25px; color: gold; margin: 20px;">خاڵەکانت: <span id="current-score">0</span></div>
+        <button class="btn" onclick="playTurn()">🎲 یاری بکە</button>
+        <button class="btn" style="background: gray;" onclick="showLeaderboard()">📊 TOP 50</button>
+    </div>
+
+    <div id="leaderboard-area">
+        <h2 style="color: gold;">🏆 TOP 50 PLAYERS</h2>
+        <div id="top-list">بارگاوی دەبێتەوە...</div>
+        <button class="btn" onclick="backToGame()">گەرانەوە</button>
     </div>
 
     <script>
-        let pScore = 0;
-        let bScore = 0;
+        // بەستنەوە بە Firebase ەکەی تۆوە
+        const firebaseConfig = {
+            databaseURL: "https://tmx-kurdish-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
 
-        function startGame() {
-            document.getElementById('main-menu').style.display = 'none';
-            document.getElementById('game-table').style.display = 'block';
+        let pName = "";
+        let score = 0;
+
+        function enterGame() {
+            pName = document.getElementById('player-name').value;
+            if(pName.length < 3) { alert("ناوەکەت زۆر کورتە!"); return; }
+            document.getElementById('login-area').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+            document.getElementById('welcome-msg').innerText = "بەخێربێیت " + pName;
         }
 
-        function nextRound() {
-            let p1 = Math.floor(Math.random() * 7);
-            let p2 = Math.floor(Math.random() * 7);
-            let b1 = Math.floor(Math.random() * 7);
-            let b2 = Math.floor(Math.random() * 7);
+        function playTurn() {
+            let win = Math.floor(Math.random() * 50);
+            score += win;
+            document.getElementById('current-score').innerText = score;
+            // پاشەکەوتکردن لە سێرڤەر
+            database.ref('players/' + pName).set({ name: pName, score: score });
+        }
 
-            document.getElementById('player-stone').innerText = `${p1} | ${p2}`;
-            document.getElementById('bot-stone').innerText = `${b1} | ${b2}`;
+        function showLeaderboard() {
+            document.getElementById('game-area').style.display = 'none';
+            document.getElementById('leaderboard-area').style.display = 'block';
+            
+            database.ref('players').orderByChild('score').limitToLast(50).on('value', (snapshot) => {
+                let html = "";
+                let arr = [];
+                snapshot.forEach(child => arr.push(child.val()));
+                arr.reverse().forEach((p, i) => {
+                    html += `<div class="player-entry">${i+1}. ${p.name} — ${p.score} خاڵ</div>`;
+                });
+                document.getElementById('top-list').innerHTML = html;
+            });
+        }
 
-            if ((p1 + p2) >= (b1 + b2)) {
-                pScore += 10;
-                document.getElementById('p-score').innerText = pScore;
-            } else {
-                bScore += 10;
-                document.getElementById('b-score').innerText = bScore;
-            }
+        function backToGame() {
+            document.getElementById('leaderboard-area').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
         }
     </script>
 </body>
 </html>
+
