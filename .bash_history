@@ -104,3 +104,62 @@ python army.py
 nano army.py
 python army.py
 exit
+nano combo.txt
+nano login_ui.p
+nano login.py
+git init
+git add .
+git commit -m "یەکەم وەشانی ئیمپراتۆریەتی یاری"
+# لێرەدا لێنکی ڕێپۆزیتۆرییەکەت دادەنێیت
+git remote add origin https://github.com/USERNAME/MY_GAME.git
+git push -u origin main
+git config --global user.email "ئیمەیڵەکەت لێرە بنووسە"
+git config --global user.name "ناوەکەت لێرە بنووسە"
+git add .
+git commit -m "زیادکردنی یارییە نوێیەکان و سیستمێ تۆپ"
+git push -u origin main
+git config --global user.email "email@example.com"
+git config --global user.name "Your Name"
+git add .
+git commit -m "یەکەم وەشانی یاریی شەتڕەنج و دۆمینە و کۆنکان"
+git branch -M main
+git push -u origin main
+nano name.py
+mkdir -p assets/images assets/videos
+nano tmx.py
+pkg update && pkg upgrade
+pkg install git
+git push -u origin main
+git remote set-url origin https://Ghp_ESe5XiqqKTNJ5hQ0TZpDUktjRFYpGU2DgLsn@github.com/alndawmedsafar-hub/tmx_Project.git
+git push -u origin main
+git pull origin main --rebase
+git push -u origin main
+nano intro.py
+nano app.py
+nano update.sh
+chmod +x update.sh
+[200~./update.sh
+~./update.sh
+./update.sh
+nano tmx_game.py
+./update.sh
+nano index.html
+./update.sh
+git rm bank_data.txt cracked_passwords.txt intel.txt
+git commit -m "Security update: Removed private data"
+git push origin main
+git rm bank_data.txt cracked_passwords.txt intel.txt
+git commit -m "Security update: Removed private data"
+git push origin main
+git pull origin main --rebase
+git rm bank_data.txt cracked_passwords.txt intel.txt
+git commit -m "Security: Fixed private data leak"
+git push origin main --force
+nano tmx_game1.py
+./update.sh
+git add tmx_game.py
+git commit -m "Official Release of TMX KURDISH Game"
+git push origin main
+git pull origin main
+python tmx_game.py
+exit
