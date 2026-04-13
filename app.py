@@ -1,4 +1,9 @@
-from flask import Flask, request
+import intro  # ئەمە وادەکات یەکەم شت دەستپێکەکە نیشان بدات
+import os
+
+# پاشان کۆدی یارییەکەت لێرە دەست پێ دەکات
+print("Welcome to the main menu...")
+ from flask import Flask, request
 import logging
 
 log = logging.getLogger('werkzeug')
