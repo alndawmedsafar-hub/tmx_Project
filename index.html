@@ -3,141 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TMX KURDISH | Online</title>
-    
+    <title>TMX KURDISH PLATFORM</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
-
-    <style>
-        :root { --tmx-green: #1db954; --tmx-red: #ff0000; --tmx-gold: #ffd700; }
-        body { background-color: #0c0c0c; color: white; font-family: sans-serif; text-align: center; margin: 0; padding: 0; }
-        .header { background-color: var(--tmx-red); padding: 15px; font-size: 22px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .tab-bar { display: flex; justify-content: space-around; background: #1a1a1a; padding: 12px; border-bottom: 2px solid #333; }
-        .tab { cursor: pointer; color: #888; font-weight: bold; transition: 0.3s; }
-        .tab.active { color: var(--tmx-green); border-bottom: 2px solid var(--tmx-green); }
-        .game-container { display: none; padding: 20px; }
-        .game-container.active { display: block; }
-        .btn { background-color: var(--tmx-green); color: white; padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; margin: 10px; font-size: 16px; }
-        .score-box { background: #222; margin: 8px auto; padding: 15px; border-radius: 12px; border-right: 5px solid var(--tmx-green); display: flex; justify-content: space-between; align-items: center; max-width: 380px; }
-        input { padding: 15px; border-radius: 10px; border: 1px solid #444; background: #1a1a1a; color: white; width: 80%; max-width: 300px; margin-bottom: 20px; text-align: center; font-size: 16px; }
-        .domino-table { background: #074a21; border: 8px solid #5d4037; border-radius: 20px; min-height: 200px; margin: 20px auto; max-width: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .konkan-table { background: #1e3799; border: 8px solid #0c2461; border-radius: 20px; padding: 40px; margin: 20px auto; max-width: 400px; }
-    </style>
 </head>
 <body>
-
     <div class="header">🎬 TMX KURDISH ENTERTAINMENT</div>
 
     <div id="login-screen" style="padding: 80px 20px;">
-        <h1 style="color: var(--tmx-green); font-size: 45px; margin-bottom: 10px;">TMX KURDISH</h1>
-        <p style="color: #aaa; margin-bottom: 30px;">بەخێربێیت فەرماندە، ناوەکەت بنووسە بۆ دەستپێکردن</p>
-        <input type="text" id="p-name" placeholder="ناوی بەکارهێنەر..."><br>
-        <button class="btn" onclick="initUser()">🔓 دەستپێکردن</button>
+        <input type="text" id="p-name" placeholder="ناوەکەت بنووسە..."><br>
+        <button class="btn" onclick="initUser()">🔐 دەستپێکردن</button>
     </div>
 
     <div id="main-ui" style="display: none;">
         <div class="tab-bar">
-            <div class="tab active" id="tab-domino" onclick="showTab('domino')">🀄 دۆمینە</div>
-            <div class="tab" id="tab-konkan" onclick="showTab('konkan')">🃏 کۆنکان</div>
-            <div class="tab" id="tab-top" onclick="showTab('top')">🏆 TOP 50</div>
+            <div class="tab active" onclick="showTab('domino')">🀄 دۆمینە</div>
+            <div class="tab" onclick="showTab('konkan')">🃏 کۆنکان</div>
+            <div class="tab" onclick="showTab('top')">🏆 TOP 50</div>
         </div>
 
         <div id="domino" class="game-container active">
-            <h2 style="color: var(--tmx-green);">مێزی دۆمینە</h2>
-            <div class="domino-table" id="domino-display">
-                <p>بەردێک ڕابکێشە بۆ دەستپێکردن</p>
-            </div>
+            <div class="table-ui" id="domino-display" style="background:#074a21; border:5px solid #5d4037;"></div>
             <button class="btn" onclick="playDomino()">🎲 ڕاکێشانی بەرد</button>
         </div>
 
         <div id="konkan" class="game-container">
-            <h2 style="color: #4a69bd;">مێزی کۆنکان</h2>
-            <div class="konkan-table">
-                <div style="font-size: 60px; margin-bottom: 20px;">🂠 🂡</div>
-                <p>کارتەکانت لێرە دەردەکەون</p>
-            </div>
-            <button class="btn" style="background:#ff4757">🔀 دابەشکردنی کارت</button>
+            <div class="table-ui" id="konkan-display" style="background:#1e3799; border:5px solid #0c2461;"></div>
+            <button class="btn" style="background:#ff4757" onclick="startKonkan()">🔀 دابەشکردن</button>
         </div>
 
         <div id="top" class="game-container">
-            <h2 style="color: var(--tmx-gold);">🏆 ڕیزبەندی TOP 50</h2>
             <div id="leaderboard-list"></div>
         </div>
     </div>
 
     <script>
-        // Firebase Configuration
+        // داتابەیس و فەنکشنی سەرەکی
         const firebaseConfig = { databaseURL: "https://tmx-kurdish-default-rtdb.firebaseio.com/" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        let currentUser = "", currentScore = 0;
 
-        let currentUser = "";
-        let currentScore = 0;
-
-        // Force Login Fix
         function initUser() {
-            const nameInput = document.getElementById('p-name').value.trim();
-            if (nameInput.length < 2) {
-                alert("تکایە ناوێک بنووسە!");
-                return;
-            }
-            currentUser = nameInput;
-            
-            // Immediately Switch UI
+            currentUser = document.getElementById('p-name').value;
+            if(currentUser.length < 2) return alert("ناوێک بنووسە");
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-ui').style.display = 'block';
-            
-            // Sync with Firebase in background
-            try {
-                database.ref('players/' + currentUser).once('value', (snapshot) => {
-                    if (snapshot.exists()) {
-                        currentScore = snapshot.val().score;
-                    }
-                });
-            } catch (e) { console.error("Firebase sync failed, but game continues."); }
         }
 
-        function showTab(tabId) {
-            document.querySelectorAll('.game-container').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            document.getElementById('tab-' + tabId).classList.add('active');
-            if(tabId === 'top') loadLeaderboard();
-        }
-
-        function playDomino() {
-            let p1 = Math.floor(Math.random() * 7);
-            let p2 = Math.floor(Math.random() * 7);
-            document.getElementById('domino-display').innerHTML = `
-                <div style="background:white; color:black; padding:15px; border-radius:10px; font-weight:bold; font-size:30px; border:3px solid #000; box-shadow: 4px 4px 10px rgba(0,0,0,0.5);">
-                    ${p1} | ${p2}
-                </div>
-                <p style="color:var(--tmx-gold); font-weight:bold; margin-top:15px;">+10 خاڵ بۆ تۆ!</p>
-            `;
-            currentScore += 10;
-            // Update Firebase
+        function updateScore(pts) {
+            currentScore += pts;
             database.ref('players/' + currentUser).set({ name: currentUser, score: currentScore });
         }
 
-        function loadLeaderboard() {
-            const listDiv = document.getElementById('leaderboard-list');
-            listDiv.innerHTML = "<p>⌛ چاوەڕێ بکە، خەریکە خاڵەکان دەهێنم...</p>";
-            
-            database.ref('players').orderByChild('score').limitToLast(50).on('value', (snapshot) => {
+        function showTab(id) {
+            document.querySelectorAll('.game-container').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(id === 'top') loadTop();
+        }
+
+        function loadTop() {
+            database.ref('players').orderByChild('score').limitToLast(50).on('value', s => {
                 let html = "";
-                let players = [];
-                snapshot.forEach(child => players.push(child.val()));
-                players.reverse().forEach((p, index) => {
-                    let icon = (index === 0) ? "🥇" : (index === 1) ? "🥈" : (index === 2) ? "🥉" : "👤";
-                    html += `
-                        <div class="score-box">
-                            <span>${icon} ${index + 1}. <b>${p.name}</b></span>
-                            <span style="color: var(--tmx-gold); font-weight: bold;">${p.score} ⭐</span>
-                        </div>`;
+                let arr = [];
+                s.forEach(c => arr.push(c.val()));
+                arr.reverse().forEach((p, i) => {
+                    html += `<div class="score-box"><span>${i+1}. ${p.name}</span><span>${p.score} ⭐</span></div>`;
                 });
-                listDiv.innerHTML = html || "<p>کەس هێشتا یاری نەکردووە!</p>";
+                document.getElementById('leaderboard-list').innerHTML = html;
             });
         }
     </script>
+    <script src="domino.js"></script>
+    <script src="konkan.js"></script>
 </body>
 </html>
